@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- 决定：绿色圆圈 + ✓ + 小饭碗（绿色=确定/已完成，非橙色体系） -->
+  <!-- 背景（沿用饭小圈米白圆角） -->
+  <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+  <!-- 绿色圆圈（浅绿底 + 深绿描边） -->
+  <circle cx="56" cy="52" r="26" fill="#EAF6DF" stroke="#73B84B" stroke-width="4"/>
+  <!-- ✓ 勾（深绿） -->
+  <path d="M 41 53 L 53 65 L 73 40" fill="none" stroke="#579631" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 小饭碗（右下角，与我的主页同款位置与配色） -->
+  <path d="M 72 104 A 17 10 0 0 0 106 104 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="89" cy="104" rx="17.5" ry="5.5" fill="#FFC857" stroke="#E96B0C" stroke-width="3"/>
+  <ellipse cx="89" cy="103" rx="13" ry="3" fill="#FFFDF8"/>
+</svg>

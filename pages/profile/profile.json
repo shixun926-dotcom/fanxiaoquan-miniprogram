@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "login-panel": "/components/login-panel/index",
+    "redeem-code": "/components/redeem-code/index",
+    "badge-coin": "/components/badge-coin/index",
+    "badge-modal": "/components/badge-modal/index",
+    "badge-toast": "/components/badge-toast/index"
+  },
+  "navigationBarTitleText": "我的"
+}

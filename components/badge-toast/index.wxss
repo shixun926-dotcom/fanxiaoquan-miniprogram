@@ -1,0 +1,70 @@
+/* 徽章解锁提示弹层 */
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(36, 24, 18, 0.55);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast {
+  width: 560rpx;
+  background: #fff;
+  border-radius: 44rpx;
+  padding: 48rpx 32rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 24rpx 60rpx rgba(232, 67, 46, 0.25);
+  animation: cardIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cardIn {
+  from {
+    transform: scale(0.7) translateY(24rpx);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.t-title {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #241812;
+}
+
+.t-list {
+  margin-top: 30rpx;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.t-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 18rpx;
+}
+
+.t-name {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #6b5a4c;
+  margin-top: 12rpx;
+}
+
+.t-btn {
+  margin-top: 36rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b35, #e8432e);
+  border-radius: 999rpx;
+  padding: 18rpx 0;
+}

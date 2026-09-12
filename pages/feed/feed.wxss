@@ -1,0 +1,832 @@
+/* pages/feed —— 饭小圈（三子视图：饭小圈 / 附近 / 大厨TV）
+ * 烟火实验室 · Warm Kitchen Lab 设计规范：餐垫卡 + 筷子划痕子tab + 蒸汽占位图 */
+
+/* ---------- 子 tab 条（筷子划痕下划线） ---------- */
+
+.sub-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  background: rgba(255, 246, 236, 0.96);
+  padding: 16rpx 32rpx;
+  gap: 52rpx;
+  backdrop-filter: blur(10rpx);
+}
+
+.sub-tab {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  font-size: 28rpx;
+  color: #9C8B7C;
+  transition: color 0.2s;
+}
+
+.sub-tab.on {
+  color: #E8432E;
+  font-weight: 700;
+}
+
+/* 选中下划线：两根筷子划过的痕迹（渐变短条） */
+.sub-tab.on::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 64rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #FF6B35, #E8432E);
+  box-shadow: 0 2rpx 8rpx rgba(232, 67, 46, 0.35);
+}
+
+/* ---------- 搜索条（检索功能：三个子栏目共用，进入即聚焦） ---------- */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 12rpx 24rpx 16rpx;
+}
+
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #F6EFE6;
+  border: 1rpx solid #F0E0CE;
+  border-radius: 999rpx;
+  padding: 12rpx 24rpx;
+  min-width: 0;
+}
+
+.search-icon {
+  font-size: 24rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 26rpx;
+  min-width: 0;
+}
+
+.search-clear {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: #DCC9B4;
+  color: #ffffff;
+  font-size: 22rpx;
+  line-height: 36rpx;
+  text-align: center;
+  flex-shrink: 0;
+  margin-left: 8rpx;
+}
+
+.search-cancel {
+  font-size: 28rpx;
+  color: #E8432E;
+  flex-shrink: 0;
+}
+
+/* 结果计数 / 搜索中 */
+.search-total {
+  padding: 0 32rpx 8rpx;
+  font-size: 24rpx;
+  color: #9C8B7C;
+}
+
+.search-loading {
+  text-align: center;
+  color: #B3A292;
+  font-size: 24rpx;
+  padding: 40rpx 0;
+}
+
+/* ---------- 附近：当前定位条（地址文案 + 刷新；无定位时由 nearby-guide 引导卡接管） ---------- */
+
+.nearby-loc {
+  margin: 24rpx;
+  padding: 18rpx 26rpx;
+  background: #fff7ec;
+  border: 1rpx solid #ffddb8;
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #6b5a4c;
+}
+
+.nearby-loc-txt {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nearby-loc-refresh {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #ff8a1f;
+  background: #fffdf8;
+  border: 1rpx solid #ffd9c4;
+  border-radius: 999rpx;
+  padding: 6rpx 22rpx;
+}
+
+/* ---------- 附近：位置权限引导 ---------- */
+
+.nearby-guide {
+  margin: 24rpx;
+  padding: 64rpx 40rpx;
+  background: #ffffff;
+  border-radius: 32rpx;
+  text-align: center;
+  border: 1rpx solid #F3E3D3;
+  box-shadow: 0 6rpx 20rpx rgba(232, 67, 46, 0.08);
+}
+
+.nearby-guide-emoji {
+  font-size: 80rpx;
+  filter: drop-shadow(0 8rpx 10rpx rgba(232, 67, 46, 0.2));
+}
+
+.nearby-guide-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-top: 20rpx;
+}
+
+.nearby-guide-sub {
+  font-size: 26rpx;
+  color: #9C8B7C;
+  margin-top: 8rpx;
+}
+
+.nearby-guide-btn {
+  display: inline-block;
+  margin-top: 32rpx;
+  padding: 16rpx 56rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 600;
+  box-shadow: 0 6rpx 18rpx rgba(232, 67, 46, 0.25);
+}
+
+/* ---------- 大厨TV 卡片 ---------- */
+
+.cook-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-top: 24rpx;
+}
+
+.cook-content {
+  font-size: 26rpx;
+  color: #6B5A4C;
+  margin-top: 8rpx;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.cook-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.cook-img {
+  width: calc((100% - 24rpx) / 3);
+  height: 216rpx;
+  border-radius: 16rpx;
+  background: #F6EFE6;
+}
+
+/* 大厨TV 发布弹窗 */
+
+.cook-textarea {
+  width: 100%;
+  height: 200rpx;
+  box-sizing: border-box;
+  background: #F6EFE6;
+  border-radius: 16rpx;
+  padding: 22rpx 24rpx;
+  font-size: 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.cook-upload-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.cook-upload-item {
+  position: relative;
+  width: 176rpx;
+  height: 176rpx;
+}
+
+.cook-upload-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+  background: #F6EFE6;
+}
+
+.cook-upload-del {
+  position: absolute;
+  top: -14rpx;
+  right: -14rpx;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: rgba(36, 24, 18, 0.65);
+  color: #ffffff;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.cook-upload-add {
+  width: 176rpx;
+  height: 176rpx;
+  border-radius: 16rpx;
+  border: 2rpx dashed #E3D3C0;
+  background: #F6EFE6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #9C8B7C;
+}
+
+.cook-upload-add-text {
+  font-size: 22rpx;
+  margin-top: 8rpx;
+}
+
+.feed-head {
+  padding: 40rpx 32rpx 24rpx;
+}
+
+.feed-head-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.feed-head-logo {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1rpx rgba(232, 67, 46, 0.15);
+}
+
+.feed-head-sub {
+  color: #9C8B7C;
+  font-size: 26rpx;
+  margin-top: 6rpx;
+}
+
+/* ---------- 帖子卡片（餐垫卡） ---------- */
+
+.card.post {
+  background: #ffffff;
+  border: 1rpx solid #F3E3D3;
+  box-shadow: 0 10rpx 30rpx rgba(232, 67, 46, 0.09);
+}
+
+.post-head {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #ffffff;
+  flex-shrink: 0;
+  background: #F6EFE6;
+  box-shadow: inset 0 0 0 2rpx #F3E3D3;
+}
+
+.post-meta {
+  margin-left: 20rpx;
+}
+
+.post-nick-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.post-nick {
+  font-weight: 600;
+  font-size: 30rpx;
+}
+
+/* 昵称行徽章展示位：固定 5 枚（badge-coin，点击整区展开全部徽章） */
+.nick-badges {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 6rpx 10rpx 6rpx 4rpx;
+  border-radius: 999rpx;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.nick-badge {
+  flex-shrink: 0;
+}
+
+.nick-badge-more {
+  flex-shrink: 0;
+  font-size: 18rpx;
+  font-weight: 700;
+  color: #8a7a66;
+  margin-left: 2rpx;
+}
+
+/* Lv 分层徽章：9+ 虹彩 / 6-8 金 / 3-5 银 / 0-2 陶土 */
+.lv-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2rpx 12rpx;
+  border-radius: 999rpx;
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 600;
+  line-height: 1.6;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.15);
+}
+
+.post-sub {
+  color: #9C8B7C;
+  font-size: 24rpx;
+}
+
+.post-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24rpx;
+}
+
+.post-dish {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+/* 无图占位：渐变暖色底 + 两缕蒸汽 + 大 emoji（蒸汽是美食的"出锅感"） */
+.post-img {
+  position: relative;
+  margin-top: 20rpx;
+  height: 300rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.post-img-emoji {
+  font-size: 120rpx;
+  line-height: 1;
+  filter: drop-shadow(0 10rpx 14rpx rgba(60, 25, 5, 0.25));
+}
+
+.steam-mini {
+  position: absolute;
+  top: 44rpx;
+  left: 120rpx;
+  width: 26rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  filter: blur(3rpx);
+  opacity: 0.7;
+  animation: steam-rise 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.steam-mini.s2 {
+  left: auto;
+  right: 130rpx;
+  top: 60rpx;
+  animation-delay: 1.2s;
+}
+
+.post-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.post-foot-left {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+}
+
+.post-foot-right {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+/* 踩（不感兴趣）：裂开的爱心，点击后对该用户隐藏帖子
+   默认：灰底圆钮 + 中心白色裂心；点击后：裂心变灰（请求成功后帖子移除） */
+.dislike {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #EDE3D7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dislike-icon {
+  font-size: 30rpx;
+  line-height: 1;
+  filter: grayscale(100%) brightness(2.6); /* 中心白色裂心 */
+}
+
+.dislike.done {
+  background: #F6EFE6;
+}
+
+.dislike.done .dislike-icon {
+  filter: grayscale(100%); /* 点击后：灰色裂心 */
+}
+
+/* 删除自己发布的帖子 */
+.del-btn {
+  font-size: 24rpx;
+  color: #E5484D;
+  background: #FDEDE6;
+  border-radius: 999rpx;
+  padding: 10rpx 24rpx;
+}
+
+.like {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 0;
+}
+
+.like-icon {
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.like-num {
+  margin-left: 10rpx;
+  color: #9C8B7C;
+  font-size: 26rpx;
+}
+
+/* 点赞心跳（点击喜欢时怦然一下） */
+.like.liked .like-icon {
+  animation: heart-beat 0.5s ease-in-out;
+}
+
+@keyframes heart-beat {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+.liked .like-num {
+  color: #E8432E;
+  font-weight: 600;
+}
+
+.comment-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 30rpx;
+  padding: 10rpx 0;
+}
+
+.comment-btn-num {
+  color: #9C8B7C;
+  font-size: 26rpx;
+}
+
+.copy-btn {
+  font-size: 26rpx;
+  color: #E8432E;
+  border: 1rpx solid #FFD9C4;
+  padding: 10rpx 28rpx;
+  border-radius: 999rpx;
+  background: #FFF1E6;
+  font-weight: 600;
+}
+
+/* ---------- 评论区 ---------- */
+
+.comment-panel {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #F3E3D3;
+}
+
+.comment-list {
+  max-height: 420rpx;
+  overflow-y: auto;
+}
+
+.comment-item {
+  display: flex;
+  padding: 16rpx 0;
+}
+
+.comment-avatar {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #FFF1E6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+
+.comment-main {
+  flex: 1;
+  margin-left: 16rpx;
+  min-width: 0;
+}
+
+.comment-nick-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.comment-nick {
+  font-size: 24rpx;
+  color: #9C8B7C;
+}
+
+.comment-mine {
+  font-size: 18rpx;
+  color: #E8432E;
+  background: #FFF1E6;
+  border-radius: 999rpx;
+  padding: 0 8rpx;
+  line-height: 1.6;
+}
+
+.comment-content {
+  font-size: 26rpx;
+  margin-top: 4rpx;
+  word-break: break-all;
+}
+
+.comment-time {
+  font-size: 20rpx;
+  color: #C9B8A8;
+  margin-top: 4rpx;
+}
+
+.comment-empty {
+  text-align: center;
+  color: #B3A292;
+  font-size: 24rpx;
+  padding: 24rpx 0;
+}
+
+.comment-input-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 8rpx;
+}
+
+.comment-input {
+  flex: 1;
+  background: #F6EFE6;
+  border-radius: 999rpx;
+  padding: 16rpx 28rpx;
+  font-size: 26rpx;
+}
+
+.comment-send {
+  font-size: 26rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  border-radius: 999rpx;
+  padding: 14rpx 32rpx;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+/* ---------- 空态 ---------- */
+
+.feed-empty {
+  text-align: center;
+  padding: 120rpx 48rpx;
+}
+
+.feed-empty-emoji {
+  font-size: 96rpx;
+  filter: drop-shadow(0 8rpx 10rpx rgba(232, 67, 46, 0.2));
+}
+
+.feed-empty-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-top: 24rpx;
+}
+
+.feed-empty-sub {
+  font-size: 26rpx;
+  color: #B3A292;
+  margin-top: 8rpx;
+}
+
+/* ---------- 发帖入口（渐变胶囊） ---------- */
+
+.fab {
+  position: fixed;
+  right: 32rpx;
+  bottom: 180rpx; /* 给悬浮 Dock 让位 */
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  padding: 0 40rpx;
+  height: 104rpx;
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 800;
+  box-shadow: 0 12rpx 32rpx rgba(232, 67, 46, 0.35);
+  z-index: 10;
+}
+
+.fab:active {
+  transform: scale(0.94);
+}
+
+.fab.disabled {
+  background: #C9B8A8;
+  box-shadow: none;
+}
+
+/* ---------- 发帖弹窗 ---------- */
+
+.post-sheet {
+  width: 660rpx;
+  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 32rpx;
+  padding: 40rpx;
+  box-sizing: border-box;
+  overflow-y: auto;
+  box-shadow: 0 24rpx 60rpx rgba(232, 67, 46, 0.18);
+}
+
+.sheet-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin-bottom: 28rpx;
+}
+
+.sheet-input {
+  background: #F6EFE6;
+  border-radius: 16rpx;
+  padding: 22rpx 24rpx;
+  font-size: 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.ph {
+  color: #C9B8A8;
+}
+
+.sheet-label {
+  font-size: 26rpx;
+  color: #9C8B7C;
+  margin-bottom: 16rpx;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.chip {
+  padding: 12rpx 24rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  background: #F6EFE6;
+  color: #6B5A4C;
+  border: 2rpx solid transparent;
+}
+
+.chip.on {
+  background: #FFF1E6;
+  color: #E8432E;
+  border-color: #FFC9A8;
+  font-weight: 600;
+}
+
+/* ---------- 图片上传区（阿里云 OSS） ---------- */
+
+.upload-box {
+  height: 320rpx;
+  border-radius: 20rpx;
+  background: #F6EFE6;
+  border: 2rpx dashed #E3D3C0;
+  overflow: hidden;
+  margin-bottom: 16rpx;
+}
+
+.upload-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #9C8B7C;
+}
+
+.upload-plus {
+  font-size: 64rpx;
+  line-height: 1;
+  color: #D9C6B2;
+}
+
+.upload-text {
+  font-size: 26rpx;
+  margin-top: 12rpx;
+}
+
+.upload-ops {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
+.op-link {
+  font-size: 24rpx;
+  color: #E5484D;
+}
+
+.op-hint {
+  font-size: 22rpx;
+  color: #B3A292;
+}
+
+.sheet-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.sheet-actions .btn-ghost,
+.sheet-actions .btn-primary {
+  flex: 1;
+}

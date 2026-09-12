@@ -1,0 +1,32 @@
+<view class="mask" wx:if="{{show}}" bindtap="close">
+  <view class="hint-card" catchtap="noop">
+    <!-- step 1：已复制菜名 + 下一步路径说明（L1 核心表达） -->
+    <block wx:if="{{step === 1}}">
+      <view class="ok-badge">✓</view>
+      <view class="hint-title">已复制「{{dish}}」</view>
+      <view class="hint-desc">
+        L1 外卖联动 · 原型演示：正式版将唤起{{platformLabel}}，
+        搜索「{{dish}}」直达对应菜品
+      </view>
+      <view class="hint-actions">
+        <view class="btn-ghost" bindtap="close">先不了</view>
+        <view class="btn-primary" bindtap="next">去{{platformLabel}}看看</view>
+      </view>
+    </block>
+
+    <!-- step 2：模拟目标平台搜索页（L2/L3 的跳转承接位） -->
+    <block wx:else>
+      <view class="platform-bar">
+        <view class="platform-name">{{platformLabel}}</view>
+        <view class="platform-search">🔍 {{dish}}</view>
+      </view>
+      <view class="hint-desc">
+        正在模拟跳转到{{platformLabel}}搜索页…
+        原型阶段不真实跳转，正式版由平台小程序 path / 白名单 H5 承接（见 docs 页 L2/L3 方案）
+      </view>
+      <view class="hint-actions">
+        <view class="btn-primary" bindtap="done">完成</view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+<!-- pages/more —— 更多（UI/打赏功能设计文档.md F2：收纳意见反馈/我的反馈 + 打赏开发者入口） -->
+<view class="page">
+  <!-- 反馈区：从「我的」页迁入，跳转逻辑与页面文件不变 -->
+  <view class="card">
+    <view class="entry" bindtap="openFeedback">
+      <image class="entry-icon" src="/images/brand/feedback-128.png" mode="aspectFit" />
+      <view class="entry-info">
+        <view class="entry-title">意见反馈</view>
+        <view class="entry-sub">提建议 · 报问题</view>
+      </view>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry-divider"></view>
+    <view class="entry" bindtap="openFeedbackList">
+      <image class="entry-icon" src="/images/brand/my-feedback-128.png" mode="aspectFit" />
+      <view class="entry-info">
+        <view class="entry-title">我的反馈</view>
+        <view class="entry-sub">处理进度与回复</view>
+      </view>
+      <text class="entry-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 打赏区：独立分区，暖色渐变卡片突出"请饭小圈吃顿饭"的温度 -->
+  <view class="card reward-card">
+    <view class="entry" bindtap="openReward">
+      <view class="entry-icon-wrap">
+        <image class="entry-icon" src="/images/brand/reward-badge-128.png" mode="aspectFit" />
+      </view>
+      <view class="entry-info">
+        <view class="entry-title">打赏开发者</view>
+        <view class="entry-sub">请饭小圈吃顿饭 🍚</view>
+      </view>
+      <text class="entry-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 微信授权登录（未登录点反馈入口 / 打赏领取时按需弹出） -->
+  <login-panel show="{{showLogin}}" bind:close="closeLogin" />
+</view>

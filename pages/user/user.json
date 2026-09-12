@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "login-panel": "/components/login-panel/index",
+    "badge-coin": "/components/badge-coin/index",
+    "badge-modal": "/components/badge-modal/index",
+    "badge-all": "/components/badge-all/index"
+  },
+  "navigationBarTitleText": "用户主页"
+}

@@ -1,0 +1,76 @@
+<view class="page">
+  <!-- 反馈类型（单选 chips，默认"问题反馈"） -->
+  <view class="card f-card">
+    <view class="f-label">反馈类型</view>
+    <view class="chip-row">
+      <view
+        wx:for="{{types}}"
+        wx:key="key"
+        class="chip {{type === item.key ? 'on' : ''}}"
+        bindtap="selectType"
+        data-key="{{item.key}}"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <!-- 反馈内容（必填，10-500 字，实时字数统计） -->
+  <view class="card f-card">
+    <view class="f-label">反馈内容（必填）</view>
+    <textarea
+      class="f-textarea"
+      value="{{content}}"
+      bindinput="onContentInput"
+      placeholder="说说你遇到的问题或建议，越详细越方便我们定位…"
+      placeholder-class="ph"
+      maxlength="500"
+      cursor-spacing="120"
+    />
+    <view class="f-count">{{content.length}} / 500</view>
+  </view>
+
+  <!-- 附图（选填，最多 3 张，复用 OSS 直传） -->
+  <view class="card f-card">
+    <view class="f-label">附图（选填，最多 3 张）</view>
+    <view class="f-images">
+      <view class="f-img" wx:for="{{images}}" wx:key="*this">
+        <image
+          src="{{item}}"
+          mode="aspectFill"
+          bindtap="previewImage"
+          data-url="{{item}}"
+        />
+        <view class="f-img-del" catchtap="removeImage" data-idx="{{index}}">×</view>
+      </view>
+      <view class="f-img-add" wx:if="{{images.length < 3}}" bindtap="chooseImage">＋</view>
+    </view>
+  </view>
+
+  <!-- 联系方式（选填，单项，格式校验） -->
+  <view class="card f-card">
+    <view class="f-label">联系方式（选填，方便我们联系你）</view>
+    <view class="chip-row">
+      <view
+        wx:for="{{contactTypes}}"
+        wx:key="key"
+        class="chip {{contactType === item.key ? 'on' : ''}}"
+        bindtap="selectContactType"
+        data-key="{{item.key}}"
+      >{{item.label}}</view>
+    </view>
+    <input
+      wx:if="{{contactType}}"
+      class="f-input"
+      value="{{contact}}"
+      bindinput="onContactInput"
+      placeholder="{{contactPlaceholder}}"
+      placeholder-class="ph"
+      maxlength="64"
+    />
+    <view class="f-sub-tip" wx:if="{{contactType}}">仅用于开发者联系你，不会展示在小程序里</view>
+  </view>
+
+  <!-- 提交 -->
+  <view class="f-submit {{submitting ? 'disabled' : ''}}" bindtap="submit">
+    {{submitting ? '提交中…' : '提交反馈'}}
+  </view>
+</view>

@@ -1,0 +1,42 @@
+<view class="page" wx:if="{{f}}">
+  <!-- 反馈内容 + 附图 -->
+  <view class="card f-d-head">
+    <view class="f-item-head">
+      <view class="f-item-type">{{f.typeLabel}}</view>
+      <view class="f-status {{STATUS[f.status].cls}}">{{f.statusLabel}}</view>
+    </view>
+    <view class="f-d-content">{{f.content}}</view>
+    <view class="f-d-images" wx:if="{{f.images.length}}">
+      <image
+        wx:for="{{f.images}}"
+        wx:key="*this"
+        src="{{item}}"
+        mode="aspectFill"
+        bindtap="previewImage"
+        data-url="{{item}}"
+        data-urls="{{f.images}}"
+      />
+    </view>
+    <view class="f-d-meta">提交于 {{f.timeText}}</view>
+  </view>
+
+  <!-- 状态时间线（已收到 → 处理中 → 已解决，当前状态高亮） -->
+  <view class="card f-timeline" wx:if="{{f.statusHistory.length}}">
+    <view class="f-label">处理进度</view>
+    <view class="f-tl-row" wx:for="{{f.statusHistory}}" wx:key="status">
+      <view class="f-tl-dot {{item.status === f.status ? 'on' : ''}}"></view>
+      <view class="f-tl-info">
+        <view class="f-tl-status {{item.status === f.status ? 'on' : ''}}">{{item.statusLabel}}</view>
+        <view class="f-tl-time">{{item.timeText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 客服回复（后台写入，前端只读） -->
+  <view class="card f-reply" wx:if="{{f.reply}}">
+    <view class="f-label">客服回复</view>
+    <view class="f-reply-bubble">{{f.reply}}</view>
+  </view>
+
+  <view class="f-d-tip" wx:if="{{f.status === 'pending'}}">已收到，我们会尽快查看～</view>
+</view>

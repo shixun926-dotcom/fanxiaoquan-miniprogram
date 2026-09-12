@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- 意见反馈：本子 + 铅笔 + 对话框（本子=意见，铅笔=输入，气泡=沟通） -->
+  <!-- 背景 -->
+  <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+  <!-- 本子 -->
+  <rect x="34" y="24" width="58" height="58" rx="10" fill="#FFFDF8" stroke="#E96B0C" stroke-width="3.5"/>
+  <!-- 本子文字行 -->
+  <line x1="46" y1="42" x2="80" y2="42" stroke="#E96B0C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="46" y1="54" x2="80" y2="54" stroke="#E96B0C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="46" y1="66" x2="64" y2="66" stroke="#E96B0C" stroke-width="3" stroke-linecap="round"/>
+  <!-- 铅笔（斜跨本子左下角：笔身黄、笔尖橙、边缘深橙） -->
+  <g transform="rotate(-42 50 76)">
+    <rect x="44" y="58" width="10" height="46" rx="5" fill="#FFC857" stroke="#FF8A1F" stroke-width="2.5"/>
+    <path d="M 44 60 L 49 50 L 54 60 Z" fill="#FF8A1F" stroke="#E96B0C" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="44" y="102" width="10" height="6" rx="2" fill="#FFFDF8" stroke="#FF8A1F" stroke-width="1.5"/>
+  </g>
+  <!-- 对话框（气泡，右下角） -->
+  <rect x="72" y="88" width="46" height="30" rx="15" fill="#FF8A1F"/>
+  <path d="M 76 114 L 66 126 L 84 117 Z" fill="#FF8A1F"/>
+  <!-- 气泡内三点（深棕文字色） -->
+  <circle cx="84" cy="103" r="2.8" fill="#5A3518"/>
+  <circle cx="95" cy="103" r="2.8" fill="#5A3518"/>
+  <circle cx="106" cy="103" r="2.8" fill="#5A3518"/>
+</svg>

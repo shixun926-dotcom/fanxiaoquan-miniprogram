@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- 我的反馈：反馈记录 + 查询（放大镜）+ 小饭碗；状态色与业务状态直接对应 -->
+  <!-- 背景 -->
+  <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+  <!-- 记录本（清单） -->
+  <rect x="32" y="28" width="58" height="60" rx="9" fill="#FFFDF8" stroke="#FF8A1F" stroke-width="3.5"/>
+  <!-- 夹子 -->
+  <rect x="48" y="21" width="26" height="13" rx="5" fill="#FFC857" stroke="#E96B0C" stroke-width="2.5"/>
+  <line x1="48" y1="27.5" x2="74" y2="27.5" stroke="#E96B0C" stroke-width="2"/>
+  <!-- 状态三行：✓ 已处理 / ◷ 处理中 / ••• 待处理 -->
+  <path d="M 45 48 L 50 53 L 60 41" fill="none" stroke="#73B84B" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="53" cy="62" r="6" fill="none" stroke="#FFB020" stroke-width="3"/>
+  <line x1="53" y1="62" x2="53" y2="58" stroke="#FFB020" stroke-width="2.4" stroke-linecap="round"/>
+  <line x1="53" y1="62" x2="56" y2="63.5" stroke="#FFB020" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="46" cy="77" r="2.5" fill="#A8A19A"/>
+  <circle cx="53" cy="77" r="2.5" fill="#A8A19A"/>
+  <circle cx="60" cy="77" r="2.5" fill="#A8A19A"/>
+  <!-- 放大镜（查询） -->
+  <circle cx="90" cy="92" r="11" fill="#FFFDF8" stroke="#E96B0C" stroke-width="4"/>
+  <line x1="98" y1="100" x2="111" y2="113" stroke="#E96B0C" stroke-width="5.5" stroke-linecap="round"/>
+  <!-- 小饭碗（右下角配色统一，位置左下） -->
+  <path d="M 26 104 A 15 9.5 0 0 0 56 104 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="2.8" stroke-linejoin="round"/>
+  <ellipse cx="41" cy="104" rx="15.5" ry="5" fill="#FFC857" stroke="#E96B0C" stroke-width="2.8"/>
+  <ellipse cx="41" cy="103" rx="11" ry="2.7" fill="#FFFDF8"/>
+</svg>

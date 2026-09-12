@@ -1,0 +1,51 @@
+/* components/redeem-code —— 兑换码输入（烟火实验室 · Warm Kitchen Lab） */
+
+.redeem-block {
+  background: #ffffff;
+  border: 1rpx solid #F3E3D3;
+  border-radius: 32rpx;
+  box-shadow: 0 6rpx 20rpx rgba(232, 67, 46, 0.08);
+  padding: 24rpx 32rpx;
+  margin: 0 24rpx;
+}
+
+.redeem-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+
+.redeem-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.redeem-input {
+  flex: 1;
+  min-width: 0;
+  background: #F6EFE6;
+  border-radius: 999rpx;
+  padding: 16rpx 28rpx;
+  font-size: 26rpx;
+}
+
+.redeem-btn {
+  flex-shrink: 0;
+  font-size: 26rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  border-radius: 999rpx;
+  padding: 16rpx 40rpx;
+  font-weight: 600;
+  box-shadow: 0 4rpx 14rpx rgba(232, 67, 46, 0.25);
+}
+
+.redeem-btn.disabled {
+  opacity: 0.4;
+}
+
+/* placeholder 类（组件样式隔离，需在组件内定义） */
+.ph {
+  color: #C9B8A8;
+}

@@ -1,0 +1,58 @@
+/* 悬浮胶囊 Dock（设计规范 3.5 方案 B） */
+
+.dock-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 36rpx calc(28rpx + env(safe-area-inset-bottom));
+  z-index: 99;
+  pointer-events: none;
+}
+
+.dock {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 999rpx;
+  box-shadow: 0 14rpx 40rpx rgba(232, 67, 46, 0.14), inset 0 0 0 1rpx #F3E3D3;
+  padding: 8rpx;
+}
+
+.dock-item {
+  flex: 1;
+  height: 92rpx;
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #9C8B7C;
+  transition: all 0.25s;
+}
+
+.dock-ico {
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+.dock-ico-img {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  /* 品牌图标白底已抠除，透明背景圆形；选中态加细描边提升对比 */
+  box-shadow: inset 0 0 0 2rpx rgba(232, 67, 46, 0.18);
+}
+
+.dock-item.on .dock-ico-img {
+  box-shadow: inset 0 0 0 2rpx rgba(255, 255, 255, 0.55);
+}
+
+.dock-item.on {
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  box-shadow: 0 8rpx 18rpx rgba(232, 67, 46, 0.35);
+}

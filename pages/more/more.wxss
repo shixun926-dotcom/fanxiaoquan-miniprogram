@@ -1,0 +1,75 @@
+/* pages/more —— 更多（餐垫卡样式，沿用「我的」页 entry 行布局） */
+
+.page {
+  padding-top: 24rpx;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.entry:active {
+  background: #FFF4E8;
+  border-radius: 24rpx;
+}
+
+.entry-icon {
+  width: 48rpx;
+  height: 48rpx;
+  flex-shrink: 0;
+}
+
+.entry-info {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.entry-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.entry-sub {
+  font-size: 22rpx;
+  color: #9C8B7C;
+  margin-top: 2rpx;
+}
+
+.entry-arrow {
+  color: #C9B8A8;
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+
+.entry-divider {
+  height: 1rpx;
+  background: #F3E3D3;
+}
+
+/* 打赏区（独立分区：暖色渐变卡片 + 徽章白盘图标，突出"请饭小圈吃顿饭"的温度） */
+.reward-card {
+  margin-top: 32rpx;
+  background: linear-gradient(135deg, #FFF7EC 0%, #FFF1E0 100%);
+  border-color: #FFDDB8;
+  box-shadow: 0 6rpx 20rpx rgba(233, 107, 12, 0.1);
+}
+
+.reward-card .entry-icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #FFFDF8;
+  box-shadow: 0 4rpx 12rpx rgba(233, 107, 12, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reward-card .entry-icon {
+  width: 52rpx;
+  height: 52rpx;
+}

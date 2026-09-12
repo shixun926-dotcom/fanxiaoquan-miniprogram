@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "login-panel": "/components/login-panel/index"
+  },
+  "navigationBarTitleText": "更多"
+}

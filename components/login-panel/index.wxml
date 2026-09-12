@@ -1,0 +1,38 @@
+<view class="mask" wx:if="{{show}}" catchtap="noop">
+  <view class="login-card">
+    <!-- step1：微信一键登录 -->
+    <block wx:if="{{step === 1}}">
+      <view class="login-logo">🍜</view>
+      <view class="login-title">登录饭小圈</view>
+      <view class="login-desc">授权登录后，你的微信昵称头像将展示在「我的」和晒吃帖里</view>
+      <view class="login-btn" bindtap="doLogin">微信一键登录</view>
+      <view class="login-skip" bindtap="skip">暂不登录</view>
+    </block>
+
+    <!-- step2：昵称头像（微信官方头像昵称填写能力） -->
+    <block wx:else>
+      <view class="login-title">设置昵称头像</view>
+      <view class="login-desc">按微信最新规则，昵称头像需你主动授权确认：头像直接选用微信头像，昵称点键盘上的「填入」即可</view>
+
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image wx:if="{{avatar}}" class="avatar-preview" src="{{avatar}}" mode="aspectFill" />
+        <view wx:else class="avatar-placeholder">👤</view>
+      </button>
+      <view class="avatar-tip">点击选择微信头像</view>
+
+      <input
+        class="nick-input"
+        type="nickname"
+        placeholder="填写你的微信昵称"
+        placeholder-class="ph"
+        value="{{nickname}}"
+        bindinput="onNickInput"
+        maxlength="20"
+      />
+
+      <view class="login-btn {{nickname ? '' : 'disabled'}}" bindtap="confirm">
+        {{uploading ? '上传头像中…' : '确认进入'}}
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/feed/feed",
+    "pages/decide/decide",
+    "pages/profile/profile",
+    "pages/docs/docs",
+    "pages/user/user",
+    "pages/messages/messages",
+    "pages/chat/chat",
+    "pages/feedback/feedback",
+    "pages/feedback-list/feedback-list",
+    "pages/feedback-detail/feedback-detail",
+    "pages/more/more",
+    "pages/reward/reward"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFF6EC",
+    "navigationBarTitleText": "饭小圈",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFF6EC",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#9C8B7C",
+    "selectedColor": "#E8432E",
+    "backgroundColor": "#FFF6EC",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/feed/feed",
+        "text": "饭小圈",
+        "iconPath": "images/tabbar/feed.png",
+        "selectedIconPath": "images/tabbar/feed-on.png"
+      },
+      {
+        "pagePath": "pages/decide/decide",
+        "text": "决定",
+        "iconPath": "images/tabbar/decide.png",
+        "selectedIconPath": "images/tabbar/decide-on.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tabbar/profile.png",
+        "selectedIconPath": "images/tabbar/profile-on.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于展示附近50km内大家的饭小圈"
+    }
+  }
+}

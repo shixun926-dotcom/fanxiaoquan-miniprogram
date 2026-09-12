@@ -1,0 +1,196 @@
+<view class="page">
+  <!-- 用户头部（微信授权登录后的昵称头像；头像框权益 gold/rainbow） -->
+  <view class="card profile-head">
+    <view class="avatar-ring {{avatarRing}}">
+      <image
+        wx:if="{{user.avatar}}"
+        class="avatar-img"
+        src="{{user.avatar}}"
+        mode="aspectFill"
+        bindtap="openLogin"
+      />
+      <view wx:else class="avatar" bindtap="openLogin">🍜</view>
+    </view>
+    <view class="head-info" bindtap="openLogin">
+      <view class="head-name">{{user.loggedIn ? user.nickname : '点击微信登录'}}</view>
+      <view class="head-sub">{{user.loggedIn ? '微信登录 · 昵称头像来自授权' : '登录后同步微信昵称头像'}}</view>
+    </view>
+    <view class="head-actions">
+      <view
+        class="head-action {{user.loggedIn ? 'logout' : 'login'}}"
+        bindtap="onHeadAction"
+      >{{user.loggedIn ? '退出' : '登录'}}</view>
+      <view class="more-btn" bindtap="openMore">更多</view>
+    </view>
+  </view>
+
+  <!-- 社交入口：我的主页 + 消息（V1 F2 / V2 F8，消息带未读红点） -->
+  <view class="card entry-row">
+    <view class="entry" bindtap="openMyHome">
+      <text class="entry-emoji">🏠</text>
+      <view class="entry-info">
+        <view class="entry-title">我的主页</view>
+        <view class="entry-sub">作品 · 关注 · 粉丝</view>
+      </view>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry-divider"></view>
+    <view class="entry" bindtap="openMessages">
+      <text class="entry-emoji">💬</text>
+      <view class="entry-info">
+        <view class="entry-title">消息</view>
+        <view class="entry-sub">互相关注的好友会话</view>
+      </view>
+      <view class="entry-badge" wx:if="{{unreadCount > 0}}">{{unreadCount > 99 ? '99+' : unreadCount}}</view>
+      <text class="entry-arrow" wx:else>›</text>
+    </view>
+  </view>
+
+  <!-- 等级卡片（星级食神徽章 + 一碗饭进度条，设计规范 6） -->
+  <view class="card level-card">
+    <view class="level-row">
+      <view class="badge" style="--ring: {{levelInfo.badgeRing}}">
+        <view class="lv-num">Lv.{{levelInfo.level}}</view>
+        <view class="lv-app">饭小圈</view>
+        <view class="lv-emoji">{{levelInfo.emoji}}</view>
+      </view>
+      <view class="level-info">
+        <view class="level-title">{{levelInfo.title}}</view>
+        <view class="level-tagline">{{levelInfo.tagline}}</view>
+        <view class="rice-bar">
+          <view class="rice-fill" style="width: {{levelInfo.percent}}%"></view>
+          <view class="spoon" style="left: {{levelInfo.spoonPct}}%">🥢</view>
+        </view>
+        <view class="level-tip" wx:if="{{!levelInfo.isMax}}">目前该等级经验 {{levelInfo.curExp}} · 升级所需 {{levelInfo.needExp}} · 还需 {{levelInfo.nextNeed}} 升 Lv.{{levelInfo.level + 1}}</view>
+        <view class="level-tip" wx:else>已满级 Lv.{{levelInfo.level}}，感谢一路分享！</view>
+      </view>
+    </view>
+    <view class="level-next" wx:if="{{levelInfo.nextTitle}}">下一称号：{{levelInfo.nextTitle}}</view>
+  </view>
+
+  <!-- 成就徽章墙（等级卡下方，设计文档 5.2；未解锁灰显带锁，点击看进度详情）
+       默认折叠仅显示一行 5 枚，可展开全部 / 收起（仿「最近决定」卡片） -->
+  <view class="card badge-wall">
+    <view class="wall-head">
+      <view class="wall-title">我的徽章</view>
+      <view class="wall-cnt">{{badges.unlockedCount}} / {{badges.badgeTotal}}</view>
+    </view>
+    <view class="wall-grid">
+      <view
+        class="wall-cell"
+        wx:for="{{displayWall}}"
+        wx:key="key"
+        bindtap="onBadgeTap"
+        data-key="{{item.key}}"
+      >
+        <badge-coin key="{{item.key}}" locked="{{!item.unlocked}}" size="96"></badge-coin>
+        <view class="wall-name">{{item.name}}</view>
+      </view>
+    </view>
+    <view class="wall-toggle" bindtap="toggleWall">
+      {{showAllWall ? '收起 ▴' : '展开全部（' + badges.badgeTotal + ' 枚）▾'}}
+    </view>
+  </view>
+
+  <!-- 数据概览 -->
+  <view class="stats-row">
+    <view class="card stat">
+      <view class="stat-num">{{stats.favorites}}</view>
+      <view class="stat-label">收藏</view>
+    </view>
+    <view class="card stat">
+      <view class="stat-num">{{stats.history}}</view>
+      <view class="stat-label">决定记录</view>
+    </view>
+    <view class="card stat">
+      <view class="stat-num">{{stats.posts}}</view>
+      <view class="stat-label">晒吃帖</view>
+    </view>
+  </view>
+
+  <!-- 默认外卖平台偏好 -->
+  <view class="section">
+    <view class="section-title">默认外卖平台</view>
+    <view class="card">
+      <view class="chip-row">
+        <view
+          wx:for="{{platforms}}"
+          wx:key="key"
+          class="chip {{platformKey === item.key ? 'on' : ''}}"
+          bindtap="selectPlatform"
+          data-key="{{item.key}}"
+        >{{item.label}}</view>
+      </view>
+      <view class="section-sub">「去点外卖」将默认前往该平台搜索</view>
+    </view>
+  </view>
+
+  <!-- 我的收藏 -->
+  <view class="section">
+    <view class="section-title">我的收藏</view>
+    <view class="card list-card" wx:if="{{favorites.length}}">
+      <view class="row" wx:for="{{favorites}}" wx:key="id">
+        <image
+          wx:if="{{item.img}}"
+          class="row-img"
+          src="{{item.img}}"
+          mode="aspectFill"
+          binderror="onRowImgError"
+          data-list="favorites"
+          data-id="{{item.id}}"
+        />
+        <text wx:else class="row-emoji">{{item.emoji}}</text>
+        <view class="row-info">
+          <view class="row-title">{{item.dish}}</view>
+          <view class="row-sub">{{item.category}} · {{item.time}}</view>
+        </view>
+        <view class="row-ops">
+          <view class="op" bindtap="copyDish" data-dish="{{item.dish}}">复制</view>
+          <view class="op danger" bindtap="removeFav" data-dish="{{item.dish}}">移除</view>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:else>还没有收藏，去「决定」里收藏一道菜吧</view>
+  </view>
+
+  <!-- 决定历史（默认折叠，仅显示近 10 条，可展开/收起） -->
+  <view class="section">
+    <view class="section-title-row">
+      <view class="section-title">最近决定</view>
+      <view class="link" bindtap="clearHistory" wx:if="{{history.length}}">清空</view>
+    </view>
+    <view class="card list-card" wx:if="{{history.length}}">
+      <view class="row" wx:for="{{displayHistory}}" wx:key="id">
+        <image
+          wx:if="{{item.img}}"
+          class="row-img"
+          src="{{item.img}}"
+          mode="aspectFill"
+          binderror="onRowImgError"
+          data-list="history"
+          data-id="{{item.id}}"
+        />
+        <text wx:else class="row-emoji">{{item.emoji}}</text>
+        <view class="row-info">
+          <view class="row-title">{{item.dish}}</view>
+          <view class="row-sub">{{item.source}} · {{item.time}}</view>
+        </view>
+        <view class="tag">{{item.category}}</view>
+      </view>
+      <view class="history-toggle" wx:if="{{history.length > 10}}" bindtap="toggleHistory">
+        {{showAllHistory ? '收起 ▴' : '展开全部（' + history.length + ' 条）▾'}}
+      </view>
+    </view>
+    <view class="empty" wx:else>还没有决定记录，去「决定」转一转吧</view>
+  </view>
+
+  <!-- 兑换码（输入逻辑独立在 components/redeem-code 组件内） -->
+  <redeem-code bind:redeemed="onRedeemed" />
+
+  <!-- 微信授权登录 -->
+  <login-panel show="{{showLogin}}" bind:close="closeLogin" />
+
+  <!-- 徽章详情弹层 / 解锁提示（成就徽章系统） -->
+  <badge-modal visible="{{showBadgeModal}}" badge="{{curBadge}}" bind:close="onBadgeModalClose" />
+  <badge-toast visible="{{showBadgeToast}}" badges="{{toastBadges}}" bind:close="onBadgeToastClose" />
+</view>

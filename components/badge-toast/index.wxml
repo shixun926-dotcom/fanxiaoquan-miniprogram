@@ -1,0 +1,12 @@
+<view class="mask" wx:if="{{visible}}" catchtap="onMask">
+  <view class="toast" catchtap="noop">
+    <view class="t-title">🎉 恭喜解锁新徽章</view>
+    <scroll-view scroll-x class="t-list" enhanced show-scrollbar="{{false}}">
+      <view class="t-item" wx:for="{{badges}}" wx:key="key">
+        <badge-coin key="{{item.key}}" size="128"></badge-coin>
+        <view class="t-name">{{item.name}}</view>
+      </view>
+    </scroll-view>
+    <view class="t-btn" bindtap="onOk">太棒了</view>
+  </view>
+</view>

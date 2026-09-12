@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>打赏开发者徽章 · 设计预览</title>
+<style>
+:root{
+  --fx-primary:#FF8A1F; --fx-dark:#E96B0C; --fx-food:#FFC857; --fx-highlight:#FFE8A6;
+  --fx-rice:#FFFDF8; --fx-bg:#FFF9F0; --fx-blush:#FF8B72; --fx-heart:#FF5364; --fx-text:#5A3518;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--fx-bg);color:var(--fx-text);padding:40px 24px 80px}
+.wrap{max-width:1080px;margin:0 auto}
+.hero{text-align:center;margin-bottom:40px}
+.hero .kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--fx-primary);background:#FFF1E0;border:1px solid #FFDDB8;border-radius:999px;padding:7px 20px}
+.hero h1{font-size:38px;font-weight:800;margin-top:14px}
+.hero p{color:#8A7666;font-size:14px;margin-top:8px}
+.sec{margin-top:44px}
+.sec h2{font-size:22px;font-weight:800;margin-bottom:16px}
+.sec h2 span{font-size:12px;color:#9C8B7C;font-weight:400;margin-left:10px}
+.badges{display:flex;gap:36px;flex-wrap:wrap;align-items:center;justify-content:center;background:#fff;border:1px solid #F3E3D3;border-radius:24px;padding:36px;box-shadow:0 6px 20px rgba(233,107,12,.08)}
+.badge-big svg{width:200px;height:200px;display:block}
+.badge-big .cap{text-align:center;font-size:12px;color:#9C8B7C;margin-top:8px}
+/* 按钮版 */
+.btn-demo{display:flex;flex-direction:column;gap:14px}
+.reward-btn{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FF8A1F,#E96B0C);border-radius:999px;padding:14px 34px;color:#fff;font-size:18px;font-weight:700;box-shadow:0 10px 24px rgba(233,107,12,.35)}
+.reward-btn svg{width:44px;height:44px;border-radius:50%;background:#FFFDF8;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.slogan{font-size:13px;color:#8A7666;line-height:1.8;background:#FFF7EC;border-radius:14px;padding:14px 18px;border:1px dashed #FFDDB8}
+.slogan b{color:var(--fx-dark)}
+.palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.sw{background:#fff;border:1px solid #F3E3D3;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(233,107,12,.06)}
+.sw .chip{height:56px}
+.sw .info{padding:8px 10px}
+.sw .info b{font-size:12.5px}
+.sw .info code{display:block;font-size:10.5px;color:#9C8B7C}
+.layers{background:#fff;border:1px solid #F3E3D3;border-radius:20px;padding:22px 26px;box-shadow:0 6px 20px rgba(233,107,12,.08)}
+.layers ol{margin-left:18px;line-height:2}
+.layers li b{color:var(--fx-primary)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #F3E3D3}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid #F3E3D3;font-size:13.5px}
+th{background:#FFF7EC}
+td .dot{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:6px;vertical-align:-2px}
+.note{margin-top:10px;font-size:12px;color:#9C8B7C;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">饭小圈 · 打赏开发者</div>
+    <h1>请饭小圈吃顿饭 🍚</h1>
+    <p>不是"付钱"的感觉，而是"我请饭小圈吃一顿饭"——饭碗小吉祥物抱着爱心</p>
+  </div>
+
+  <div class="sec">
+    <h2>徽章本体 <span>reward-badge.svg · 128×128</span></h2>
+    <div class="badges">
+      <div class="badge-big">
+        <svg viewBox="0 0 128 128" width="200" height="200"><use href="#badge"/></svg>
+        <div class="cap">打赏徽章 · 5 层结构</div>
+      </div>
+      <div class="btn-demo">
+        <div class="reward-btn">
+          <svg viewBox="0 0 128 128"><use href="#badge"/></svg>
+          打赏支持
+        </div>
+        <div class="slogan">
+          推荐标语（三选一）：<br>
+          <b>① 请饭小圈吃顿饭 🍚</b>（最贴合品牌）<br>
+          ② 请开发者喝杯奶茶 🧋　③ 支持一下饭小圈 ❤️
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>5 层结构 <span>外部徽章 → 饭碗吉祥物 → 爱心 → 装饰 → 丝带</span></h2>
+    <div class="layers">
+      <ol>
+        <li><b>外部徽章</b>：圆形勋章轮廓（定稿为圆形），外圈 <code>#E96B0C</code> / 内芯 <code>#FFE8A6</code></li>
+      <li><b>饭碗吉祥物</b>：碗身 <code>#FFC857</code> 描边 <code>#E96B0C</code>、米饭 <code>#FFFDF8</code>、米粒 <code>#FFC857</code>、眼睛嘴巴 <code>#5A3518</code>（右眼为弧线眯眼）、腮红 <code>#FF8B72</code></li>
+      <li><b>爱心</b>：<code>#FF5364</code>，吉祥物抱在胸前（"我愿意支持"）</li>
+      <li><b>装饰</b>：左上 ✨（<code>#FFC857</code>）、右上 ❤️（<code>#FF5364</code>），克制不喧宾夺主</li>
+      <li><b>丝带</b>："打赏支持"橙色 Ribbon（带两侧飘尾）<code>#FF8A1F</code>，边缘 <code>#E96B0C</code>，文字 <code>#FFFDF8</code> 字重 700</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>核心色板 <span>与 4 个功能图标同一设计系统</span></h2>
+    <div class="palette" id="palette"></div>
+  </div>
+
+  <div class="sec">
+    <h2>打赏等级（可选，不与金额绑定）<span>自愿支持 → 可爱纪念徽章</span></h2>
+    <table>
+      <tr><th>等级</th><th>徽章名称</th><th>颜色</th></tr>
+      <tr><td>Lv.1</td><td>初次支持</td><td><span class="dot" style="background:#E9A27E"></span>#E9A27E</td></tr>
+      <tr><td>Lv.2</td><td>暖心支持</td><td><span class="dot" style="background:#6FA8DC"></span>#6FA8DC</td></tr>
+      <tr><td>Lv.3</td><td>超级支持</td><td><span class="dot" style="background:#FFB52E"></span>#FFB52E</td></tr>
+      <tr><td>Lv.4</td><td>真爱粉</td><td><span class="dot" style="background:#FF5C9A"></span>#FF5C9A</td></tr>
+      <tr><td>Lv.5</td><td>饭小圈赞助</td><td><span class="dot" style="background:#8B5CF6"></span>#8B5CF6</td></tr>
+    </table>
+    <div class="note">注意：等级与金额<b>不直接绑定</b>（避免商业化充值感）；打赏后由开发者在后台按支持情况授予对应徽章。</div>
+  </div>
+
+</div>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="badge">
+      <path d="M64 6 C72 6 78 10 83 15 C91 13 99 17 103 24 C110 28 113 36 111 44 C117 50 119 58 116 66 C119 74 117 82 111 88 C113 96 110 104 103 108 C99 115 91 119 83 116 C77 122 70 124 64 122 C56 124 49 122 44 116 C36 119 28 115 24 108 C17 104 15 96 17 88 C11 82 9 74 12 66 C9 58 11 50 17 44 C15 36 18 28 25 24 C29 17 37 13 45 15 C50 10 56 6 64 6 Z" fill="#FFE8A6" stroke="#E96B0C" stroke-width="4"/>
+      <path d="M25 35 L28 42 L35 45 L28 48 L25 55 L22 48 L15 45 L22 42 Z" fill="#FFC857"/>
+      <path d="M94 27 C89 21 82 25 83 31 C83 37 94 42 94 42 C94 42 105 37 105 31 C105 25 99 21 94 27 Z" fill="#FF5364"/>
+      <path d="M34 61 C36 82 46 91 64 91 C82 91 92 82 94 61 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="3"/>
+      <path d="M38 61 C39 53 46 49 52 51 C55 44 64 43 68 49 C75 45 84 50 85 57 C90 57 92 60 92 64 L38 64 Z" fill="#FFFDF8" stroke="#E96B0C" stroke-width="2.5"/>
+      <ellipse cx="51" cy="56" rx="2" ry="1.5" fill="#FFC857"/><ellipse cx="65" cy="51" rx="2" ry="1.5" fill="#FFC857"/><ellipse cx="77" cy="56" rx="2" ry="1.5" fill="#FFC857"/>
+      <circle cx="53" cy="69" r="3" fill="#5A3518"/>
+      <path d="M72 69 C74 66 77 66 79 69" fill="none" stroke="#5A3518" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M59 75 C62 78 67 78 70 75" fill="none" stroke="#5A3518" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="46" cy="76" rx="5" ry="2.5" fill="#FF8B72" opacity="0.8"/><ellipse cx="82" cy="76" rx="5" ry="2.5" fill="#FF8B72" opacity="0.8"/>
+      <path d="M64 76 C60 70 53 73 54 78 C54 84 64 88 64 88 C64 88 74 84 74 78 C74 73 67 70 64 76 Z" fill="#FF5364"/>
+      <path d="M20 88 L30 91 L30 105 L20 101 Z M108 88 L98 91 L98 105 L108 101 Z M27 87 C38 90 90 90 101 87 L98 106 C85 109 43 109 30 106 Z" fill="#FF8A1F" stroke="#E96B0C" stroke-width="2"/>
+      <text x="64" y="101" text-anchor="middle" font-size="11" font-weight="700" font-family="sans-serif" fill="#FFFDF8">打赏支持</text>
+    </g>
+  </defs>
+</svg>
+
+<script>
+const P = [
+  ['品牌橙', '#FF8A1F', '主色 / 丝带'], ['深橙', '#E96B0C', '描边'], ['食物黄', '#FFC857', '饭碗'],
+  ['高光黄', '#FFE8A6', '勋章内芯'], ['米饭白', '#FFFDF8', '米饭 / 文字'], ['米白', '#FFF9F0', '背景'],
+  ['腮红粉', '#FF8B72', '腮红 / 小爱心'], ['爱心红', '#FF5364', '爱心'], ['深棕', '#5A3518', '眼睛 / 嘴巴'],
+  ['支持绿', '#73B84B', '可选状态色']
+];
+const box = document.getElementById('palette');
+P.forEach(p => {
+  const d = document.createElement('div');
+  d.className = 'sw';
+  d.innerHTML = '<div class="chip" style="background:' + p[1] + '"></div><div class="info"><b>' + p[0] + '</b><code>' + p[1] + ' · ' + p[2] + '</code></div>';
+  box.appendChild(d);
+});
+</script>
+</body>
+</html>

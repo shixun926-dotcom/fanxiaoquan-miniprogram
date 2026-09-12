@@ -1,0 +1,77 @@
+<!-- pages/reward —— 打赏开发者（UI/打赏功能设计文档.md F3，V0.2 客户要求：微信赞赏码置顶、每次点击都显示兑换码）
+     双二维码原封不动展示、可长按识别；打赏在外部平台完成，本页不接支付 -->
+<view class="page">
+  <!-- 打赏徽章 + 标语区（徽章柔光浮动，蒸汽/回弹语言） -->
+  <view class="hero">
+    <view class="badge-wrap">
+      <view class="badge-glow"></view>
+      <image class="badge-img" src="/images/brand/reward-badge-128.png" mode="aspectFit" />
+      <view class="steam s1"></view>
+      <view class="steam s2"></view>
+      <view class="steam s3"></view>
+    </view>
+    <view class="slogan">请饭小圈吃顿饭 🍚</view>
+    <view class="sub-slogan">请根据您经济状况打赏，我们都要好好的生活~</view>
+  </view>
+
+  <!-- 微信赞赏码（客户交付素材，原封不动展示，长按识别；置于上方） -->
+  <view class="card qr-card">
+    <view class="qr-title">
+      <text class="qr-icon">🖼</text>
+      <text>微信赞赏码</text>
+      <text class="qr-tag">长按识别</text>
+    </view>
+    <view class="qr-frame">
+      <image
+        class="qr-img"
+        src="/images/reward/wechat-qr.jpg"
+        mode="widthFix"
+        show-menu-by-longpress
+      />
+    </view>
+    <view class="qr-note">扫描后完成微信赞赏 · 您的支持是最大的动力</view>
+  </view>
+
+  <!-- 爱发电 · 打赏（主页地址未配置，占位不显示死链；置于下方） -->
+  <view class="card qr-card">
+    <view class="qr-title">
+      <text class="qr-icon">⚡</text>
+      <text>爱发电 · 打赏</text>
+    </view>
+    <view class="qr-box placeholder">
+      <view class="ph-emoji">📮</view>
+      <view class="ph-text">二维码待配置</view>
+    </view>
+    <view class="qr-note">我的主页：开发中</view>
+  </view>
+
+  <!-- 领取区（信任制 + 一次性兑换码；每次点击都显示兑换码） -->
+  <view class="claim-area">
+    <view class="claim-btn" bindtap="onClaim">
+      <image class="claim-chip" src="/images/brand/reward-badge-128.png" mode="aspectFit" />
+      <text class="claim-txt">我已打赏，领取打赏徽章</text>
+    </view>
+    <view class="claim-sub">不打赏也没关系，你的喜欢就是最大的支持 ❤️</view>
+  </view>
+
+  <!-- 微信授权登录（未登录点领取时弹出） -->
+  <login-panel show="{{showLogin}}" bind:close="closeLogin" />
+
+  <!-- 领取成功弹层（客户指定文案一字不改；徽章大图 + 点码即复制） -->
+  <view class="mask" wx:if="{{showCode}}" bindtap="closeCode">
+    <view class="code-modal" catchtap="noop">
+      <view class="modal-medal">
+        <view class="modal-glow"></view>
+        <image class="modal-img" src="/images/brand/reward-badge-128.png" mode="aspectFit" />
+      </view>
+      <view class="code-title">🎉 感谢您的打赏</view>
+      <view class="code-desc">感谢您的打赏，你获得打赏徽章！兑换码为：</view>
+      <view class="code-value" bindtap="copyCode">{{claimCode}}</view>
+      <view class="code-tip">点击兑换码即可复制 · 凭码在「我的 → 兑换码」兑换，徽章将出现在徽章墙</view>
+      <view class="code-actions">
+        <view class="code-btn ghost" bindtap="copyCode">复制兑换码</view>
+        <view class="code-btn primary" bindtap="goRedeem">去兑换</view>
+      </view>
+    </view>
+  </view>
+</view>

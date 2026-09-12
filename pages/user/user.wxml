@@ -1,0 +1,227 @@
+<view class="page">
+  <!-- 主页头部：头像 / 昵称 / 等级徽章称号 -->
+  <view class="head" wx:if="{{profile}}">
+    <view class="head-row">
+      <view class="avatar-ring {{avatarRing}}">
+        <image
+          wx:if="{{profile.avatar}}"
+          class="head-avatar"
+          src="{{profile.avatar}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="head-avatar avatar-fallback">{{avatarText}}</view>
+      </view>
+      <view class="head-meta">
+        <view class="head-nick-row">
+          <text class="head-nick">{{profile.nickname}}</text>
+          <text class="lv-badge" style="background: {{lvBg}}">Lv.{{profile.level}}</text>
+        </view>
+        <view class="head-title">{{levelInfo.emoji}} {{levelInfo.title}}</view>
+        <view class="head-tagline">{{levelInfo.tagline}}</view>
+        <!-- 徽章展示位：仅展示已拥有的（目录顺序前 5 枚），点击展开全部徽章 -->
+        <view wx:if="{{displayBadges.length}}" class="badge-row" bindtap="openBadgesPanel">
+          <view
+            class="badge-item"
+            wx:for="{{displayBadges}}"
+            wx:key="key"
+          >
+            <badge-coin key="{{item.key}}" size="56" shimmer="{{false}}" locked="{{!item.unlocked}}"></badge-coin>
+            <view class="badge-item-name {{item.unlocked ? '' : 'locked'}}">{{item.name}}</view>
+          </view>
+          <view class="badge-all-tag">全部 ›</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 三计数（点击切 tab） -->
+    <view class="counts">
+      <view class="count" bindtap="switchTab" data-tab="following">
+        <view class="count-num">{{profile.followingCount}}</view>
+        <view class="count-label">关注</view>
+      </view>
+      <view class="count" bindtap="switchTab" data-tab="followers">
+        <view class="count-num">{{profile.followerCount}}</view>
+        <view class="count-label">粉丝</view>
+      </view>
+      <view class="count" bindtap="switchTab" data-tab="works">
+        <view class="count-num">{{profile.worksCount}}</view>
+        <view class="count-label">作品</view>
+      </view>
+    </view>
+
+    <!-- 操作区（状态矩阵：自己=编辑资料占位；互关=发消息可点；其余按关系变关注按钮） -->
+    <view class="actions">
+      <block wx:if="{{!self}}">
+        <view
+          class="follow-btn rel-{{profile.relationship}}"
+          bindtap="toggleFollow"
+        >
+          <block wx:if="{{profile.relationship === 'following'}}">已关注</block>
+          <block wx:elif="{{profile.relationship === 'both'}}">互相关注</block>
+          <block wx:elif="{{profile.relationship === 'follower'}}">＋ 回关</block>
+          <block wx:else>＋ 关注</block>
+        </view>
+        <view
+          class="msg-btn {{profile.relationship !== 'both' ? 'disabled' : ''}}"
+          bindtap="goChat"
+        >发消息</view>
+      </block>
+      <view wx:else class="edit-placeholder" bindtap="noop">编辑资料（后续版本）</view>
+    </view>
+  </view>
+
+  <!-- tab 条 -->
+  <view class="tabs" wx:if="{{profile}}">
+    <view class="tab {{tab === 'works' ? 'on' : ''}}" bindtap="switchTab" data-tab="works">作品</view>
+    <view class="tab {{tab === 'following' ? 'on' : ''}}" bindtap="switchTab" data-tab="following">关注</view>
+    <view class="tab {{tab === 'followers' ? 'on' : ''}}" bindtap="switchTab" data-tab="followers">粉丝</view>
+  </view>
+
+  <!-- 作品列表（晒吃帖 + 教程按时间倒序聚合） -->
+  <view class="works" wx:if="{{tab === 'works'}}">
+    <block wx:for="{{works}}" wx:key="id" wx:for-item="w" wx:for-index="idx">
+      <!-- 晒吃帖卡片（餐垫卡结构） -->
+      <view class="card work-card" wx:if="{{w.type === 'post'}}">
+        <view class="work-body">
+          <view class="work-dish">{{w.dish}}</view>
+          <view class="tag" wx:if="{{w.category && w.category !== '未分类'}}">{{w.categoryEmoji}} {{w.category}}</view>
+        </view>
+        <image
+          wx:if="{{w.imageUrl}}"
+          class="work-img"
+          src="{{w.imageUrl}}"
+          mode="aspectFill"
+          bindtap="previewImage"
+          data-url="{{w.imageUrl}}"
+        />
+        <image
+          wx:elif="{{w.img}}"
+          class="work-img"
+          src="{{w.img}}"
+          mode="aspectFill"
+          binderror="onWorkImgError"
+          data-id="{{w.id}}"
+        />
+        <view wx:else class="work-img work-img-fallback">
+          <view class="steam-mini"></view>
+          <view class="steam-mini s2"></view>
+          <text class="work-img-emoji">{{w.emoji}}</text>
+        </view>
+        <view class="work-foot">
+          <view class="like {{w.liked ? 'liked' : ''}}" bindtap="toggleWorkLike" data-id="{{w.id}}" data-type="post" data-idx="{{idx}}">
+            <text class="like-icon">{{w.liked ? '❤️' : '🤍'}}</text>
+            <text class="like-num">{{w.likes}}</text>
+          </view>
+          <view class="work-foot-right">
+            <view class="comment-count">💬 {{w.commentCount}}</view>
+            <view class="del-btn" wx:if="{{w.mine}}" bindtap="deleteWork" data-id="{{w.id}}" data-idx="{{idx}}">删除</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 教程卡片 -->
+      <view class="card work-card" wx:else>
+        <view class="cook-tag-row"><text class="tag">👨‍🍳 教程</text><text class="cook-time">{{w.time}}</text></view>
+        <view class="work-dish">{{w.title}}</view>
+        <view class="cook-content" wx:if="{{w.content}}">{{w.content}}</view>
+        <view class="cook-imgs" wx:if="{{w.images.length}}">
+          <image
+            class="cook-img"
+            wx:for="{{w.images}}"
+            wx:key="*this"
+            src="{{img}}"
+            mode="aspectFill"
+            bindtap="previewImage"
+            data-url="{{img}}"
+            data-urls="{{w.images}}"
+          />
+        </view>
+        <view class="work-foot">
+          <view class="like {{w.liked ? 'liked' : ''}}" bindtap="toggleWorkLike" data-id="{{w.id}}" data-type="cook" data-idx="{{idx}}">
+            <text class="like-icon">{{w.liked ? '❤️' : '🤍'}}</text>
+            <text class="like-num">{{w.likes}}</text>
+          </view>
+          <view class="work-foot-right">
+            <view class="comment-count">💬 {{w.commentCount}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view class="list-empty" wx:if="{{!works.length && !loading}}">
+      <view class="list-empty-emoji">{{self ? '🍽️' : '📭'}}</view>
+      <view class="list-empty-text">{{self ? '还没有作品，去晒一晒你的第一顿吧' : 'TA 还没有发布过作品'}}</view>
+    </view>
+    <view class="load-more" wx:if="{{worksHasMore}}" bindtap="loadMoreWorks">加载更多</view>
+  </view>
+
+  <!-- 关注列表 -->
+  <view class="rel-list" wx:if="{{tab === 'following'}}">
+    <view class="card rel-card">
+      <view
+        class="rel-item"
+        wx:for="{{following}}"
+        wx:key="openid"
+        bindtap="openRelation"
+        data-openid="{{item.openid}}"
+      >
+        <image wx:if="{{item.avatar}}" class="rel-avatar" src="{{item.avatar}}" mode="aspectFill" />
+        <view wx:else class="rel-avatar rel-avatar-fallback">{{item.avatarText}}</view>
+        <view class="rel-info">
+          <view class="rel-nick-row">
+            <text class="rel-nick">{{item.nickname}}</text>
+            <text class="lv-badge lv-sm" style="background: {{item.level >= 9 ? 'linear-gradient(135deg, #E8432E, #FF6B35, #FFB400)' : (item.level >= 6 ? 'linear-gradient(135deg, #FFC53D, #F59E0B)' : (item.level >= 3 ? 'linear-gradient(135deg, #AAB6C2, #7A8A99)' : 'linear-gradient(135deg, #C9976B, #A5714A)'))}}">Lv.{{item.level}}</text>
+          </view>
+        </view>
+        <view class="mutual-tag" wx:if="{{item.mutual}}">互相关注</view>
+      </view>
+    </view>
+    <view class="list-empty" wx:if="{{!following.length}}">
+      <view class="list-empty-emoji">🧑‍🤝‍🧑</view>
+      <view class="list-empty-text">{{self ? '还没有关注的人，去饭小圈逛逛吧' : 'TA 还没有关注任何人'}}</view>
+    </view>
+    <view class="load-more" wx:if="{{following.length % 20 === 0 && following.length}}" bindtap="loadMoreFollowing">加载更多</view>
+  </view>
+
+  <!-- 粉丝列表 -->
+  <view class="rel-list" wx:if="{{tab === 'followers'}}">
+    <view class="card rel-card">
+      <view
+        class="rel-item"
+        wx:for="{{followers}}"
+        wx:key="openid"
+        bindtap="openRelation"
+        data-openid="{{item.openid}}"
+      >
+        <image wx:if="{{item.avatar}}" class="rel-avatar" src="{{item.avatar}}" mode="aspectFill" />
+        <view wx:else class="rel-avatar rel-avatar-fallback">{{item.avatarText}}</view>
+        <view class="rel-info">
+          <view class="rel-nick-row">
+            <text class="rel-nick">{{item.nickname}}</text>
+            <text class="lv-badge lv-sm" style="background: {{item.level >= 9 ? 'linear-gradient(135deg, #E8432E, #FF6B35, #FFB400)' : (item.level >= 6 ? 'linear-gradient(135deg, #FFC53D, #F59E0B)' : (item.level >= 3 ? 'linear-gradient(135deg, #AAB6C2, #7A8A99)' : 'linear-gradient(135deg, #C9976B, #A5714A)'))}}">Lv.{{item.level}}</text>
+          </view>
+        </view>
+        <view class="mutual-tag" wx:if="{{item.mutual}}">互相关注</view>
+      </view>
+    </view>
+    <view class="list-empty" wx:if="{{!followers.length}}">
+      <view class="list-empty-emoji">🫶</view>
+      <view class="list-empty-text">{{self ? '还没有粉丝，多发点好吃的吧' : 'TA 还没有粉丝'}}</view>
+    </view>
+    <view class="load-more" wx:if="{{followers.length % 20 === 0 && followers.length}}" bindtap="loadMoreFollowers">加载更多</view>
+  </view>
+
+  <!-- 微信授权登录 -->
+  <login-panel show="{{showLogin}}" bind:close="closeLogin" />
+
+  <!-- 徽章详情弹层 / 全部徽章展开面板（成就徽章系统） -->
+  <badge-modal visible="{{showBadgeModal}}" badge="{{curBadge}}" bind:close="onBadgeModalClose" />
+  <badge-all
+    visible="{{showAllBadges}}"
+    list="{{allBadges}}"
+    unlocked-count="{{allUnlockedCount}}"
+    total="{{badgeTotal}}"
+    bind:tapBadge="onAllBadgeTap"
+    bind:close="onAllBadgesClose"
+  />
+</view>

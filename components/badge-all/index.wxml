@@ -1,0 +1,23 @@
+<view class="mask" wx:if="{{visible}}" bindtap="onMask">
+  <view class="panel" catchtap="noop">
+    <view class="panel-head">
+      <view class="panel-title">徽章</view>
+      <view class="panel-cnt">已解锁 {{unlockedCount}} / {{total}}</view>
+      <view class="panel-close" bindtap="onClose">✕</view>
+    </view>
+    <scroll-view scroll-y class="panel-scroll">
+      <view class="grid">
+        <view
+          class="cell"
+          wx:for="{{list}}"
+          wx:key="key"
+          bindtap="onTap"
+          data-index="{{index}}"
+        >
+          <badge-coin key="{{item.key}}" locked="{{!item.unlocked}}" size="88" shimmer="{{item.unlocked}}"></badge-coin>
+          <view class="cell-name {{item.unlocked ? '' : 'locked'}}">{{item.name}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

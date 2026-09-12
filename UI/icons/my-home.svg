@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- 我的主页：米白圆角背景 + 橙色人物 + 右下角小饭碗（含爱心） -->
+  <!-- ① 米白色圆角背景 -->
+  <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+  <!-- ② 人物：头 -->
+  <circle cx="58" cy="46" r="16" fill="#FF8A1F" stroke="#E96B0C" stroke-width="3.5"/>
+  <!-- ② 人物：身体（肩部圆弧，下端收拢） -->
+  <path d="M 32 92 C 32 68 42 62 58 62 C 74 62 84 68 84 92 Z" fill="#FF8A1F" stroke="#E96B0C" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- ③ 小饭碗：碗身 -->
+  <path d="M 66 96 A 21 12 0 0 0 108 96 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="3" stroke-linejoin="round"/>
+  <!-- ③ 碗沿 -->
+  <ellipse cx="87" cy="96" rx="21.5" ry="6.5" fill="#FFC857" stroke="#E96B0C" stroke-width="3"/>
+  <!-- ③ 米饭高光 -->
+  <ellipse cx="87" cy="95" rx="16" ry="3.6" fill="#FFFDF8"/>
+  <!-- ④ 饭碗中的爱心 -->
+  <path d="M 87 105 c -4.2 -3.6 -7 -5.7 -7 -8.6 c 0 -2.2 1.8 -4 4 -4 c 1.2 0 2.2 0.5 3 1.4 c 0.8 -0.9 1.8 -1.4 3 -1.4 c 2.2 0 4 1.8 4 4 c 0 2.9 -2.8 5 -7 8.6 z" fill="#FF8B72"/>
+</svg>

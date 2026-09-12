@@ -1,0 +1,539 @@
+/* pages/decide —— 决定（烟火实验室 · Warm Kitchen Lab 设计规范） */
+
+/* ---------- 模式切换 ---------- */
+
+.mode-switch {
+  display: flex;
+  margin: 32rpx 24rpx 0;
+  background: #EFE3D3;
+  border-radius: 999rpx;
+  padding: 10rpx;
+}
+
+.mode-pill {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  color: #9C8B7C;
+  transition: all 0.2s;
+}
+
+.mode-pill.on {
+  background: #ffffff;
+  color: #E8432E;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(232, 67, 46, 0.12);
+}
+
+/* ---------- 大锅转盘 ---------- */
+
+.wheel-wrap {
+  padding: 40rpx 24rpx 0;
+}
+
+.wheel-box {
+  position: relative;
+  width: 620rpx;
+  height: 620rpx;
+  margin: 0 auto;
+}
+
+.wheel-canvas {
+  width: 600rpx;
+  height: 600rpx;
+  position: absolute;
+  left: 10rpx;
+  top: 10rpx;
+}
+
+/* 锅沿蒸汽（3 缕，错峰循环上飘） */
+.steam {
+  position: absolute;
+  width: 38rpx;
+  height: 82rpx;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+  filter: blur(5rpx);
+  z-index: 11;
+  opacity: 0.55;
+  pointer-events: none;
+  animation: steam-rise 2.8s ease-in-out infinite;
+}
+
+.steam.s1 { left: 42rpx; top: 44rpx; animation-delay: 0s; }
+.steam.s2 { right: 54rpx; top: 68rpx; animation-delay: 1.2s; }
+.steam.s3 { left: 50%; margin-left: -19rpx; top: 18rpx; animation-delay: 0.6s; }
+
+/* 筷子指针：双棍微张 + 金色筷头（设计规范 4.4） */
+.pointer {
+  position: absolute;
+  top: -30rpx;
+  left: 50%;
+  margin-left: -49rpx;
+  width: 98rpx;
+  height: 128rpx;
+  z-index: 12;
+  pointer-events: none;
+  filter: drop-shadow(0 4rpx 6rpx rgba(70, 35, 10, 0.35));
+}
+
+.rod {
+  position: absolute;
+  top: 0;
+  width: 19rpx;
+  height: 122rpx;
+  border-radius: 10rpx;
+  background: linear-gradient(180deg, #D9A46A 0%, #8A5A2B 100%);
+  box-shadow: inset -3rpx 0 0 rgba(255, 255, 255, 0.25);
+}
+
+.rod::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22rpx;
+  border-radius: 8rpx;
+  background: linear-gradient(180deg, #FFD37A 0%, #E8A020 100%);
+}
+
+.rod.r1 { left: 2rpx; transform: rotate(10deg); }
+.rod.r2 { right: 2rpx; transform: rotate(-10deg); }
+
+.pointer .tip {
+  position: absolute;
+  bottom: -2rpx;
+  left: 50%;
+  margin-left: -13rpx;
+  width: 0;
+  height: 0;
+  border-left: 13rpx solid transparent;
+  border-right: 13rpx solid transparent;
+  border-top: 22rpx solid #E8A020;
+  filter: drop-shadow(0 2rpx 2rpx rgba(0, 0, 0, 0.25));
+}
+
+/* 蘸料碟中心按钮（设计规范 4.5） */
+.saucer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 222rpx;
+  height: 222rpx;
+  border-radius: 50%;
+  background: #ffffff;
+  z-index: 13;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 26rpx rgba(90, 45, 15, 0.25), inset 0 0 0 6rpx #FFE9D6;
+  transition: transform 0.18s, opacity 0.2s;
+}
+
+.saucer:active {
+  transform: translate(-50%, -50%) scale(0.93);
+}
+
+/* 换盘动画期间隐藏：转盘没到位时不显示「开涮」，新盘落定后再淡入（淡出淡入 0.2s） */
+.saucer.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.saucer::before {
+  content: '';
+  position: absolute;
+  inset: -16rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 107, 53, 0.28);
+}
+
+.saucer-dot {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FF9A6B, #E8432E);
+  box-shadow: 0 0 0 8rpx #FFF1E6;
+}
+
+.saucer-text {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #E8432E;
+  margin-top: 12rpx;
+  line-height: 1;
+}
+
+.saucer-sub {
+  font-size: 20rpx;
+  color: #9C8B7C;
+  margin-top: 6rpx;
+}
+
+/* 换一批 */
+.wheel-tip-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28rpx;
+}
+
+.wheel-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  color: #E8432E;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 12rpx 36rpx;
+  border: 1rpx solid #FFD9C4;
+  border-radius: 999rpx;
+  background: #FFF1E6;
+  box-shadow: 0 4rpx 12rpx rgba(232, 67, 46, 0.12);
+}
+
+.refresh-icon {
+  font-size: 30rpx;
+  line-height: 1;
+}
+
+/* 换一批点击动画：整钮先缩小再弹回原大，↻ 图标顺势转一圈 */
+@keyframes refresh-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.72); }
+  100% { transform: scale(1); }
+}
+
+@keyframes refresh-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.wheel-refresh.anim {
+  animation: refresh-pop 0.35s ease-out;
+}
+
+.wheel-refresh.anim .refresh-icon {
+  animation: refresh-spin 0.5s ease-out;
+}
+
+/* ---------- 蒸笼盲盒（设计规范 5） ----------
+ * 时间线：0ms 摇笼(盖抖 0.6s) → 600ms 揭盖上浮旋转渐隐 + 热气喷涌 + 星点四溅 + 美食弹出
+ *        → 900ms 蒸笼变"蔬菜绿"定板 */
+
+.box-wrap {
+  padding: 60rpx 24rpx 0;
+}
+
+.steamer {
+  position: relative;
+  width: 600rpx;
+  height: 620rpx;
+  margin: 0 auto;
+}
+
+/* 笼盖 */
+.lid {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -240rpx;
+  width: 480rpx;
+  height: 142rpx;
+  z-index: 4;
+  background: linear-gradient(155deg, #F0C795 0%, #DDA76F 55%, #C08A52 100%);
+  border-radius: 84rpx 84rpx 38rpx 38rpx;
+  box-shadow: 0 12rpx 26rpx rgba(110, 60, 20, 0.3), inset 0 4rpx 8rpx rgba(255, 255, 255, 0.35);
+  transform-origin: 22% 85%;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* 盖钮（金色） */
+.lid::before {
+  content: '';
+  position: absolute;
+  top: -26rpx;
+  left: 50%;
+  margin-left: -32rpx;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #FFE08A, #E8A020);
+  box-shadow: 0 4rpx 8rpx rgba(120, 70, 10, 0.35), inset 0 2rpx 3rpx rgba(255, 255, 255, 0.6);
+}
+
+/* 盖沿竹纹 */
+.lid::after {
+  content: '';
+  position: absolute;
+  left: 64rpx;
+  right: 64rpx;
+  bottom: 18rpx;
+  height: 8rpx;
+  background: radial-gradient(circle at center, rgba(120, 60, 20, 0.35) 30%, transparent 32%);
+  background-size: 34rpx 8rpx;
+  background-repeat: repeat-x;
+}
+
+/* 笼身 */
+.body {
+  position: absolute;
+  top: 136rpx;
+  left: 50%;
+  margin-left: -280rpx;
+  width: 560rpx;
+  height: 380rpx;
+  z-index: 3;
+  background: linear-gradient(150deg, #FFFFFF 0%, #F6EAD9 100%);
+  border-radius: 44rpx 44rpx 68rpx 68rpx;
+  border: 2rpx solid #EFDFC8;
+  box-shadow: 0 20rpx 42rpx rgba(110, 60, 20, 0.2), inset 0 -14rpx 26rpx rgba(232, 180, 120, 0.18);
+  transition: background 0.35s;
+}
+
+/* 「味」字封条 */
+.seal {
+  position: absolute;
+  top: 140rpx;
+  left: 50%;
+  margin-left: -64rpx;
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 30rpx;
+  background: linear-gradient(150deg, #FF6B35, #E8432E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64rpx;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 8rpx 18rpx rgba(232, 67, 46, 0.35);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* 揭晓的美食（盖掀开的瞬间从笼里弹出来） */
+.reveal {
+  position: absolute;
+  top: 162rpx;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 195rpx;
+  line-height: 1;
+  z-index: 5;
+  opacity: 0;
+  transform: scale(0.2);
+  filter: drop-shadow(0 14rpx 22rpx rgba(0, 0, 0, 0.2));
+  transition: opacity 0.25s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+/* 盲盒揭晓菜品图（白底方形图，aspectFill 填满圆角框；加载失败回退 emoji） */
+.reveal-img {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 32rpx;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.box-label {
+  position: absolute;
+  bottom: 10rpx;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #6B5A4C;
+}
+
+/* 摇笼（0-600ms）：盖子发抖 */
+.steamer.shaking .lid {
+  animation: lidshake 0.6s ease-in-out;
+}
+
+@keyframes lidshake {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-7deg); }
+  40% { transform: rotate(7deg); }
+  60% { transform: rotate(-5deg); }
+  80% { transform: rotate(5deg); }
+}
+
+/* 揭盖（600ms 起）：盖子上浮旋转渐隐，一次性动画播完保持收起。
+   用动画而非静态覆盖，保证二次开笼时 lid 能回到初始位置重播 */
+.steamer.lid-open .lid {
+  animation: lidlift 0.35s ease-out forwards;
+}
+
+@keyframes lidlift {
+  from { transform: rotate(0deg); }
+  to { transform: translateY(-86rpx) rotate(20deg); opacity: 0; }
+}
+
+/* 美食弹出（与揭盖同时，稍延后一拍，动画驱动保证每次重播） */
+.steamer.lid-open .reveal {
+  animation: reveal-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards;
+}
+
+@keyframes reveal-pop {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 定板态（lid-open 摘除后接管，与动画终值一致，无跳变） */
+.steamer.opened .lid {
+  transform: translateY(-86rpx) rotate(20deg);
+  opacity: 0;
+}
+
+.steamer.opened .reveal {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 揭晓定板态：蒸笼变蔬菜绿 */
+.steamer.opened .body {
+  background: linear-gradient(150deg, #A5E3AE 0%, #5FBF6B 100%);
+  border-color: #4FA85A;
+}
+
+.steamer.opened .seal {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.steamer.opened .box-label {
+  color: #4CAF50;
+}
+
+/* 热气 + 星点粒子 */
+.puff-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.puff {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  filter: blur(8rpx);
+  animation: puffUp 0.9s ease-out forwards;
+}
+
+@keyframes puffUp {
+  0% { transform: translateY(30rpx) scale(0.6); opacity: 0; }
+  25% { opacity: 0.9; }
+  100% { transform: translateY(-70rpx) scale(1.6); opacity: 0; }
+}
+
+.spark {
+  position: absolute;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  animation: sparkFly 0.8s ease-out forwards;
+}
+
+@keyframes sparkFly {
+  from { transform: translate(0, 0) scale(1); opacity: 1; }
+  to { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
+}
+
+/* ---------- 剔除分类 ---------- */
+
+.chips-card {
+  margin-top: 8rpx;
+}
+
+.chips-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+
+.chips-sub {
+  font-size: 22rpx;
+  color: #9C8B7C;
+  font-weight: 400;
+  margin-left: 12rpx;
+}
+
+/* ---------- 结果弹层 ---------- */
+
+.result-card {
+  width: 620rpx;
+  background: linear-gradient(180deg, #FFF6EC 0%, #ffffff 22%);
+  border-radius: 36rpx;
+  padding: 48rpx 40rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 24rpx 60rpx rgba(232, 67, 46, 0.22);
+  animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.result-emoji {
+  font-size: 120rpx;
+  line-height: 1;
+  filter: drop-shadow(0 8rpx 12rpx rgba(232, 67, 46, 0.25));
+}
+
+/* 结果弹层菜品图（620rpx 卡片内大图；加载失败回退 emoji） */
+.result-img {
+  width: 380rpx;
+  height: 380rpx;
+  border-radius: 28rpx;
+  filter: drop-shadow(0 10rpx 18rpx rgba(232, 67, 46, 0.2));
+}
+
+.result-dish {
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-top: 16rpx;
+}
+
+.result-tag {
+  color: #9C8B7C;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.result-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 40rpx;
+  width: 100%;
+}
+
+.r-btn {
+  flex: 1;
+  text-align: center;
+  padding: 22rpx 0;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.r-btn.ghost {
+  background: #F6EFE6;
+  color: #6B5A4C;
+}
+
+.r-btn.primary {
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  box-shadow: 0 6rpx 20rpx rgba(232, 67, 46, 0.2);
+}

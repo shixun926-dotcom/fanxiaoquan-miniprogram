@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "login-panel": "/components/login-panel/index"
+  },
+  "navigationBarTitleText": "打赏开发者"
+}

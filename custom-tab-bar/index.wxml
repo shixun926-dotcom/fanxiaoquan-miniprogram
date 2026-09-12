@@ -1,0 +1,16 @@
+<view class="dock-wrap">
+  <view class="dock">
+    <view
+      wx:for="{{list}}"
+      wx:key="pagePath"
+      class="dock-item {{selected === index ? 'on' : ''}}"
+      bindtap="switchTab"
+      data-path="{{item.pagePath}}"
+      data-index="{{index}}"
+    >
+      <image wx:if="{{item.iconType === 'img'}}" class="dock-ico-img" src="{{item.iconSrc}}" mode="aspectFill" />
+      <text wx:else class="dock-ico">{{item.icon}}</text>
+      <text class="dock-text">{{item.text}}</text>
+    </view>
+  </view>
+</view>

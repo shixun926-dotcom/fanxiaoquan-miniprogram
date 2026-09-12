@@ -1,0 +1,37 @@
+<view class="mask" wx:if="{{visible}}" catchtap="onMask">
+  <view class="detail" catchtap="noop">
+    <!-- 打赏开发者徽章：展示完整奖章图（六边形 + 饭碗吉祥物 + 打赏支持丝带，文字已烘焙 PNG） -->
+    <image
+      wx:if="{{isReward}}"
+      class="d-medal {{badge.unlocked ? '' : 'locked'}}"
+      src="/images/brand/reward-badge-128.png"
+      mode="aspectFit"
+    />
+    <badge-coin wx:else key="{{badge.key}}" locked="{{!badge.unlocked}}" size="196" shimmer="{{badge.unlocked}}"></badge-coin>
+    <view class="d-name">{{vName}}</view>
+    <view class="d-rarity" style="background: {{pillBg}}; color: {{pillTx}};">{{vRarity}}</view>
+    <view wx:if="{{vCat}}" class="d-cat">{{vCat}} · 成就</view>
+    <view class="d-cond">{{vDesc}}</view>
+
+    <!-- 已解锁：满进度 + 解锁时间 -->
+    <block wx:if="{{badge.unlocked}}">
+      <view class="d-bar"><view class="d-bar-fill" style="width: 100%;"></view></view>
+      <view class="d-pg">已达成目标 <text class="num">{{badge.target}}</text></view>
+      <view class="d-time">解锁于 {{unlockText}}</view>
+    </block>
+
+    <!-- 未解锁但有进度数据：进度条 + 还差多少 -->
+    <block wx:elif="{{hasProgress}}">
+      <view class="d-bar"><view class="d-bar-fill" style="width: {{pct}}%;"></view></view>
+      <view class="d-pg">当前进度 <text class="num">{{badge.current}}</text> / {{badge.target}}</view>
+      <view class="d-time">还差 {{remain}} 即可解锁，加油！</view>
+    </block>
+
+    <!-- 未解锁且无进度数据（他人徽章面板点开的锁定项）：只显示达成条件 -->
+    <block wx:else>
+      <view class="d-time">尚未解锁 · 达成条件后自动获得</view>
+    </block>
+
+    <view class="d-close" bindtap="onClose">知道了</view>
+  </view>
+</view>

@@ -1,0 +1,105 @@
+/* 组件样式（app.wxss 不会注入组件，按钮样式在此补齐） */
+.mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(36, 24, 18, 0.55);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hint-card {
+  width: 620rpx;
+  background: linear-gradient(180deg, #FFF6EC 0%, #ffffff 26%);
+  border-radius: 36rpx;
+  padding: 48rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  box-shadow: 0 24rpx 60rpx rgba(232, 67, 46, 0.22);
+}
+
+.ok-badge {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: #34C77B;
+  color: #ffffff;
+  font-size: 52rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 24rpx rgba(52, 199, 123, 0.35);
+}
+
+.hint-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-top: 24rpx;
+}
+
+.hint-desc {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #9C8B7C;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.hint-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 40rpx;
+  width: 100%;
+}
+
+.hint-actions .btn-primary,
+.hint-actions .btn-ghost {
+  flex: 1;
+  font-size: 28rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 999rpx;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  box-shadow: 0 6rpx 18rpx rgba(232, 67, 46, 0.25);
+}
+
+.btn-ghost {
+  background: #F6EFE6;
+  color: #6B5A4C;
+}
+
+/* step 2：模拟外卖平台卡片 */
+.platform-bar {
+  width: 100%;
+  background: linear-gradient(135deg, #FFC46B, #FF9F43);
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+
+.platform-name {
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.platform-search {
+  margin-top: 20rpx;
+  background: #ffffff;
+  border-radius: 999rpx;
+  padding: 18rpx 28rpx;
+  font-size: 28rpx;
+  color: #241812;
+}

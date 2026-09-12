@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>饭小圈 · 图标设计系统</title>
+<style>
+:root{
+  --orange:#FF8A1F; --dark:#E96B0C; --yellow:#FFC857; --light-orange:#FFE8C7;
+  --cream:#FFF9F0; --brown:#5A3518; --rice:#FFFDF8; --pink:#FF8B72;
+  --green:#73B84B; --green-dark:#579631; --green-light:#EAF6DF; --gray:#8A8178;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei","Segoe UI",sans-serif;
+  background:var(--cream); color:var(--brown); line-height:1.6;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:48px 26px 100px}
+
+.hero{text-align:center; padding:20px 0 36px}
+.hero .kicker{display:inline-block; font-size:13px; font-weight:700; letter-spacing:3px; color:var(--orange);
+  background:#FFF1E0; border:1px solid #FFDDB8; border-radius:999px; padding:7px 20px}
+.hero h1{font-size:42px; font-weight:800; margin-top:16px}
+.hero h1 em{font-style:normal; color:var(--orange)}
+.hero p{color:#8A7666; font-size:15px; margin-top:10px}
+.links{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px}
+.links a{text-decoration:none; font-size:13px; font-weight:600; color:var(--dark); background:#fff;
+  border:1px solid #FFDDB8; border-radius:999px; padding:9px 18px; transition:transform .15s}
+.links a:hover{transform:translateY(-2px)}
+
+.sec{margin-top:46px}
+.sec-head{display:flex; align-items:baseline; gap:12px; margin-bottom:18px}
+.sec-head h2{font-size:24px; font-weight:800}
+.sec-head span{font-size:13px; color:#9C8B7C}
+
+/* 色板 */
+.palette{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px}
+.sw{background:#fff; border:1px solid #F3E3D3; border-radius:16px; overflow:hidden; box-shadow:0 6px 20px rgba(232,107,12,.08)}
+.sw .chip{height:70px}
+.sw .info{padding:9px 12px}
+.sw .info b{font-size:13px}
+.sw .info code{display:block; font-size:11px; color:#9C8B7C; margin-top:2px}
+
+/* 图标 */
+.icons{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px}
+.icard{background:#fff; border:1px solid #F3E3D3; border-radius:20px; padding:24px 18px 18px; text-align:center;
+  box-shadow:0 6px 20px rgba(232,107,12,.08); transition:transform .18s}
+.icard:hover{transform:translateY(-4px)}
+.icard svg{width:150px; height:150px; display:block; margin:0 auto}
+.icard h4{font-size:16px; font-weight:800; margin-top:12px}
+.icard .sub{font-size:12px; color:#8A8178; margin-top:4px}
+.icard .tagline{font-size:11px; color:var(--orange); font-weight:600; margin-top:8px; background:#FFF1E0;
+  border-radius:999px; padding:4px 12px; display:inline-block}
+
+/* 设计系统树 */
+.tree{background:#fff; border:1px solid #F3E3D3; border-radius:20px; padding:26px; box-shadow:0 6px 20px rgba(232,107,12,.08);
+  font-family:"SF Mono",Consolas,monospace; font-size:13px; line-height:1.9; overflow-x:auto; white-space:pre}
+
+/* 规范表 */
+table{width:100%; border-collapse:collapse; background:#fff; border-radius:16px; overflow:hidden;
+  border:1px solid #F3E3D3; box-shadow:0 6px 20px rgba(232,107,12,.08)}
+th,td{padding:12px 16px; text-align:left; border-bottom:1px solid #F3E3D3; font-size:13.5px}
+th{background:#FFF7EC; font-weight:700}
+tr:last-child td{border-bottom:none}
+td .dot{display:inline-block; width:14px; height:14px; border-radius:4px; margin-right:6px; vertical-align:-2px}
+.cap{font-size:12px; color:#9C8B7C; margin-top:8px}
+footer{text-align:center; margin-top:56px; font-size:12px; color:#9C8B7C}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">饭小圈 · 图标设计系统</div>
+    <h1>温暖 · 轻松 · <em>有烟火气</em></h1>
+    <p>暖橙 + 米白 + 食物黄 + 少量绿色 —— 不是冷冰冰的科技蓝</p>
+    <div class="links">
+      <a href="index.html">← 返回总览</a>
+      <a href="../图标更换设计规格.md">📄 设计规格文档</a>
+    </div>
+  </div>
+
+  <!-- 色板 -->
+  <div class="sec">
+    <div class="sec-head"><h2>核心色板</h2><span>一个品牌色 + 食物色 + 情绪色 + 功能色</span></div>
+    <div class="palette" id="palette"></div>
+  </div>
+
+  <!-- 设计系统 -->
+  <div class="sec">
+    <div class="sec-head"><h2>设计系统</h2><span>统一用色原则：不给每个图标乱配色</span></div>
+    <div class="tree">饭小圈
+│
+├── 品牌色 ── 橙色 #FF8A1F ──「生活 / 互动」：主页、意见反馈、我的反馈
+│
+├── 食物色 ── 黄色 #FFC857 · 米白 #FFF9F0 ── 饭碗 / 餐具 / 背景
+│
+├── 情绪色 ── 粉色 #FF8B72 ── 爱心等可爱元素
+│
+└── 功能色 ── 绿色 #73B84B ──「决定 / 状态」：决定、已处理</div>
+  </div>
+
+  <!-- 四个图标 -->
+  <div class="sec">
+    <div class="sec-head"><h2>四个图标</h2><span>SVG 源文件见 icons/ 目录</span></div>
+    <div class="icons">
+      <div class="icard">
+        <svg viewBox="0 0 128 128"><use href="#svg-home"/></svg>
+        <h4>我的主页</h4>
+        <div class="sub">👤 + 🍚❤️　我 + 吃饭</div>
+        <span class="tagline">主色 #FF8A1F</span>
+      </div>
+      <div class="icard">
+        <svg viewBox="0 0 128 128"><use href="#svg-decide"/></svg>
+        <h4>决定</h4>
+        <div class="sub">✓ + 🍚　确定 · 完成 · 已决定</div>
+        <span class="tagline">主色 #73B84B</span>
+      </div>
+      <div class="icard">
+        <svg viewBox="0 0 128 128"><use href="#svg-feedback"/></svg>
+        <h4>意见反馈</h4>
+        <div class="sub">📝 + ✏️ + 💬　意见 · 输入 · 沟通</div>
+        <span class="tagline">主色 #FF8A1F</span>
+      </div>
+      <div class="icard">
+        <svg viewBox="0 0 128 128"><use href="#svg-myfb"/></svg>
+        <h4>我的反馈</h4>
+        <div class="sub">📋 + 🔍 + 🍚　记录 · 状态 · 查询</div>
+        <span class="tagline">主色 #FF8A1F</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 统一规范表 -->
+  <div class="sec">
+    <div class="sec-head"><h2>四图标统一规范</h2><span>同一套设计系统的两大家族</span></div>
+    <table>
+      <tr><th>功能</th><th>核心图形</th><th>主色</th><th>辅助色</th><th>文件</th></tr>
+      <tr><td>我的主页</td><td>👤 + 🍚❤️</td><td><span class="dot" style="background:#FF8A1F"></span>#FF8A1F</td><td><span class="dot" style="background:#FFC857"></span>#FFC857</td><td><code>my-home.svg</code></td></tr>
+      <tr><td>决定</td><td>✓ + 🍚</td><td><span class="dot" style="background:#73B84B"></span>#73B84B</td><td><span class="dot" style="background:#FFC857"></span>#FFC857</td><td><code>decide.svg</code></td></tr>
+      <tr><td>意见反馈</td><td>📝 + ✏️ + 💬</td><td><span class="dot" style="background:#FF8A1F"></span>#FF8A1F</td><td><span class="dot" style="background:#FFC857"></span>#FFC857</td><td><code>feedback.svg</code></td></tr>
+      <tr><td>我的反馈</td><td>📋 + 🔍 + 🍚</td><td><span class="dot" style="background:#FF8A1F"></span>#FF8A1F</td><td><span class="dot" style="background:#73B84B"></span>#73B84B</td><td><code>my-feedback.svg</code></td></tr>
+    </table>
+    <div class="cap">状态色（我的反馈内）：✓ 已处理 #73B84B · ◷ 处理中 #FFB020 · ••• 待处理 #A8A19A —— 图标颜色与业务状态一一对应</div>
+  </div>
+
+  <footer>饭小圈 · 图标设计系统 · SVG 源文件在 icons/ 目录 · 离线可用，无外部依赖</footer>
+</div>
+
+<!-- ===== 四个 SVG 定义 ===== -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- 我的主页 -->
+    <g id="svg-home">
+      <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+      <circle cx="58" cy="46" r="16" fill="#FF8A1F" stroke="#E96B0C" stroke-width="3.5"/>
+      <path d="M 32 92 C 32 68 42 62 58 62 C 74 62 84 68 84 92 Z" fill="#FF8A1F" stroke="#E96B0C" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M 66 96 A 21 12 0 0 0 108 96 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse cx="87" cy="96" rx="21.5" ry="6.5" fill="#FFC857" stroke="#E96B0C" stroke-width="3"/>
+      <ellipse cx="87" cy="95" rx="16" ry="3.6" fill="#FFFDF8"/>
+      <path d="M 87 105 c -4.2 -3.6 -7 -5.7 -7 -8.6 c 0 -2.2 1.8 -4 4 -4 c 1.2 0 2.2 0.5 3 1.4 c 0.8 -0.9 1.8 -1.4 3 -1.4 c 2.2 0 4 1.8 4 4 c 0 2.9 -2.8 5 -7 8.6 z" fill="#FF8B72"/>
+    </g>
+    <!-- 决定 -->
+    <g id="svg-decide">
+      <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+      <circle cx="56" cy="52" r="26" fill="#EAF6DF" stroke="#73B84B" stroke-width="4"/>
+      <path d="M 41 53 L 53 65 L 73 40" fill="none" stroke="#579631" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M 72 104 A 17 10 0 0 0 106 104 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse cx="89" cy="104" rx="17.5" ry="5.5" fill="#FFC857" stroke="#E96B0C" stroke-width="3"/>
+      <ellipse cx="89" cy="103" rx="13" ry="3" fill="#FFFDF8"/>
+    </g>
+    <!-- 意见反馈 -->
+    <g id="svg-feedback">
+      <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+      <rect x="34" y="24" width="58" height="58" rx="10" fill="#FFFDF8" stroke="#E96B0C" stroke-width="3.5"/>
+      <line x1="46" y1="42" x2="80" y2="42" stroke="#E96B0C" stroke-width="3" stroke-linecap="round"/>
+      <line x1="46" y1="54" x2="80" y2="54" stroke="#E96B0C" stroke-width="3" stroke-linecap="round"/>
+      <line x1="46" y1="66" x2="64" y2="66" stroke="#E96B0C" stroke-width="3" stroke-linecap="round"/>
+      <g transform="rotate(-42 50 76)">
+        <rect x="44" y="58" width="10" height="46" rx="5" fill="#FFC857" stroke="#FF8A1F" stroke-width="2.5"/>
+        <path d="M 44 60 L 49 50 L 54 60 Z" fill="#FF8A1F" stroke="#E96B0C" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="44" y="102" width="10" height="6" rx="2" fill="#FFFDF8" stroke="#FF8A1F" stroke-width="1.5"/>
+      </g>
+      <rect x="72" y="88" width="46" height="30" rx="15" fill="#FF8A1F"/>
+      <path d="M 76 114 L 66 126 L 84 117 Z" fill="#FF8A1F"/>
+      <circle cx="84" cy="103" r="2.8" fill="#5A3518"/>
+      <circle cx="95" cy="103" r="2.8" fill="#5A3518"/>
+      <circle cx="106" cy="103" r="2.8" fill="#5A3518"/>
+    </g>
+    <!-- 我的反馈 -->
+    <g id="svg-myfb">
+      <rect x="6" y="6" width="116" height="116" rx="26" fill="#FFF9F0" stroke="#FFE8C7" stroke-width="3"/>
+      <rect x="32" y="28" width="58" height="60" rx="9" fill="#FFFDF8" stroke="#FF8A1F" stroke-width="3.5"/>
+      <rect x="48" y="21" width="26" height="13" rx="5" fill="#FFC857" stroke="#E96B0C" stroke-width="2.5"/>
+      <line x1="48" y1="27.5" x2="74" y2="27.5" stroke="#E96B0C" stroke-width="2"/>
+      <path d="M 45 48 L 50 53 L 60 41" fill="none" stroke="#73B84B" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="53" cy="62" r="6" fill="none" stroke="#FFB020" stroke-width="3"/>
+      <line x1="53" y1="62" x2="53" y2="58" stroke="#FFB020" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="53" y1="62" x2="56" y2="63.5" stroke="#FFB020" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="46" cy="77" r="2.5" fill="#A8A19A"/>
+      <circle cx="53" cy="77" r="2.5" fill="#A8A19A"/>
+      <circle cx="60" cy="77" r="2.5" fill="#A8A19A"/>
+      <circle cx="90" cy="92" r="11" fill="#FFFDF8" stroke="#E96B0C" stroke-width="4"/>
+      <line x1="98" y1="100" x2="111" y2="113" stroke="#E96B0C" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M 26 104 A 15 9.5 0 0 0 56 104 Z" fill="#FFC857" stroke="#E96B0C" stroke-width="2.8" stroke-linejoin="round"/>
+      <ellipse cx="41" cy="104" rx="15.5" ry="5" fill="#FFC857" stroke="#E96B0C" stroke-width="2.8"/>
+      <ellipse cx="41" cy="103" rx="11" ry="2.7" fill="#FFFDF8"/>
+    </g>
+  </defs>
+</svg>
+
+<script>
+const PALETTE = [
+  ['品牌橙', '#FF8A1F', '主色：我的主页 / 意见反馈 / 我的反馈'],
+  ['深橙', '#E96B0C', '描边 / 强调'],
+  ['食物黄', '#FFC857', '米饭 / 餐具 / 夹子 / 铅笔'],
+  ['浅橙', '#FFE8C7', '背景描边'],
+  ['米白', '#FFF9F0', '主背景'],
+  ['深棕', '#5A3518', '轮廓 / 气泡内文字'],
+  ['米饭白', '#FFFDF8', '米饭 / 本子 / 记录本'],
+  ['腮红粉', '#FF8B72', '爱心等可爱元素'],
+  ['决定绿', '#73B84B', '决定 / 已处理'],
+  ['决定深绿', '#579631', '决定勾线'],
+  ['浅绿', '#EAF6DF', '决定背景'],
+  ['灰色', '#8A8178', '辅助文字'],
+  ['处理中', '#FFB020', '◷ 处理中状态'],
+  ['待处理', '#A8A19A', '••• 待处理状态']
+];
+const box = document.getElementById('palette');
+PALETTE.forEach(p => {
+  const d = document.createElement('div');
+  d.className = 'sw';
+  d.innerHTML = '<div class="chip" style="background:' + p[1] + '"></div>' +
+    '<div class="info"><b>' + p[0] + '</b><code>' + p[1] + ' · ' + p[2] + '</code></div>';
+  box.appendChild(d);
+});
+</script>
+</body>
+</html>

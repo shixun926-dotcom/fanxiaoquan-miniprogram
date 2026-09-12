@@ -1,0 +1,38 @@
+<view class="page">
+  <view class="card list-card" wx:if="{{conversations.length}}">
+    <view
+      class="conv-item"
+      wx:for="{{conversations}}"
+      wx:key="threadKey"
+      bindtap="openChat"
+      data-key="{{item.threadKey}}"
+      data-to="{{item.otherOpenid}}"
+    >
+      <image
+        wx:if="{{item.avatar || item.avatarUrl}}"
+        class="conv-avatar"
+        src="{{item.avatar || item.avatarUrl}}"
+        mode="aspectFill"
+      />
+      <view wx:else class="conv-avatar conv-avatar-fallback">{{item.avatarText}}</view>
+      <view class="conv-info">
+        <view class="conv-nick-row">
+          <text class="conv-nick {{item.unread ? 'unread' : ''}}">{{item.nickname}}</text>
+          <text class="conv-time">{{item.lastTimeText}}</text>
+        </view>
+        <view class="conv-last {{item.unread ? 'unread' : ''}}">{{item.lastMessage || '（还没有消息，打个招呼吧）'}}</view>
+      </view>
+      <view class="conv-badge" wx:if="{{item.unread > 0}}">{{item.unread > 99 ? '99+' : item.unread}}</view>
+    </view>
+  </view>
+
+  <!-- 空态 -->
+  <view class="list-empty" wx:if="{{loading}}">
+    <view class="list-empty-text">加载中…</view>
+  </view>
+  <view class="list-empty" wx:if="{{!conversations.length && !loading}}">
+    <view class="list-empty-emoji">💬</view>
+    <view class="list-empty-text">还没有会话</view>
+    <view class="list-empty-sub">去饭小圈认识互相关注的好友，就能在这里聊天啦</view>
+  </view>
+</view>

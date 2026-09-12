@@ -1,0 +1,130 @@
+/* pages/messages —— 消息会话列表（烟火实验室 · Warm Kitchen Lab） */
+
+.list-card {
+  margin-top: 24rpx;
+  padding: 8rpx 32rpx;
+}
+
+.conv-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F3E3D3;
+}
+
+.conv-item:last-child {
+  border-bottom: none;
+}
+
+.conv-item:active {
+  background: #FFF4E8;
+}
+
+.conv-avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 2rpx #F3E3D3;
+}
+
+.conv-avatar-fallback {
+  background: linear-gradient(135deg, #FFB88A, #FF6B35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  font-weight: 700;
+}
+
+.conv-info {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.conv-nick-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.conv-nick {
+  font-size: 30rpx;
+  font-weight: 600;
+  max-width: 380rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conv-time {
+  font-size: 22rpx;
+  color: #B3A292;
+  flex-shrink: 0;
+}
+
+.conv-last {
+  font-size: 26rpx;
+  color: #9C8B7C;
+  margin-top: 6rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 未读会话：昵称 + 最后一条消息高亮加粗 */
+.conv-nick.unread {
+  color: #241812;
+  font-weight: 700;
+}
+
+.conv-last.unread {
+  color: #241812;
+  font-weight: 600;
+}
+
+/* 未读红点数字 */
+.conv-badge {
+  min-width: 40rpx;
+  height: 40rpx;
+  padding: 0 12rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  font-size: 22rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+  box-shadow: 0 4rpx 10rpx rgba(232, 67, 46, 0.35);
+}
+
+/* ---------- 空态 ---------- */
+
+.list-empty {
+  text-align: center;
+  padding: 120rpx 48rpx;
+}
+
+.list-empty-emoji {
+  font-size: 84rpx;
+  filter: drop-shadow(0 8rpx 10rpx rgba(232, 67, 46, 0.2));
+}
+
+.list-empty-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #6B5A4C;
+  margin-top: 20rpx;
+}
+
+.list-empty-sub {
+  font-size: 24rpx;
+  color: #B3A292;
+  margin-top: 10rpx;
+}

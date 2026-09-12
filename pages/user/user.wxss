@@ -1,0 +1,504 @@
+/* pages/user —— 用户主页（烟火实验室 · Warm Kitchen Lab） */
+
+/* ---------- 主页头部 ---------- */
+
+.head {
+  margin: 24rpx 24rpx 0;
+  padding: 40rpx 32rpx 32rpx;
+  background: #ffffff;
+  border-radius: 32rpx;
+  border: 1rpx solid #F3E3D3;
+  box-shadow: 0 6rpx 20rpx rgba(232, 67, 46, 0.08);
+}
+
+.head-row {
+  display: flex;
+  align-items: center;
+}
+
+.head-avatar {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 3rpx #F3E3D3;
+}
+
+.avatar-fallback {
+  background: linear-gradient(135deg, #FFB88A, #FF6B35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64rpx;
+  font-weight: 700;
+}
+
+.head-meta {
+  margin-left: 28rpx;
+  min-width: 0;
+}
+
+.head-nick-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.head-nick {
+  font-size: 36rpx;
+  font-weight: 800;
+  max-width: 340rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lv-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2rpx 12rpx;
+  border-radius: 999rpx;
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 600;
+  line-height: 1.6;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.lv-badge.lv-sm {
+  font-size: 18rpx;
+  padding: 0 10rpx;
+}
+
+.head-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-top: 10rpx;
+  color: #241812;
+}
+
+.head-tagline {
+  font-size: 22rpx;
+  color: #9C8B7C;
+  margin-top: 4rpx;
+}
+
+/* 徽章展示位：固定 5 枚（已解锁优先 + 随机补锁定态），点击整行展开全部徽章 */
+.badge-row {
+  margin-top: 14rpx;
+  display: flex;
+  align-items: flex-end;
+  gap: 14rpx;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 999rpx;
+  padding: 10rpx 14rpx 6rpx;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  flex-shrink: 0;
+}
+
+.badge-item-name {
+  font-size: 18rpx;
+  color: #6b5a4c;
+  max-width: 92rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge-item-name.locked {
+  color: #b8b2a8;
+}
+
+.badge-all-tag {
+  flex-shrink: 0;
+  font-size: 20rpx;
+  font-weight: 700;
+  color: #8a7a66;
+  padding: 0 6rpx 6rpx;
+}
+
+/* 三计数 */
+.counts {
+  display: flex;
+  margin-top: 28rpx;
+}
+
+.count {
+  flex: 1;
+  text-align: center;
+}
+
+.count-num {
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #E8432E;
+}
+
+.count-label {
+  font-size: 22rpx;
+  color: #9C8B7C;
+  margin-top: 2rpx;
+}
+
+/* 操作区（关注按钮状态矩阵） */
+.actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 28rpx;
+}
+
+.follow-btn,
+.msg-btn,
+.edit-placeholder {
+  flex: 1;
+  text-align: center;
+  padding: 18rpx 0;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.follow-btn {
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  box-shadow: 0 6rpx 18rpx rgba(232, 67, 46, 0.25);
+}
+
+.follow-btn:active {
+  transform: scale(0.96);
+}
+
+/* 已关注 / 互相关注：灰底或描边态 */
+.follow-btn.rel-following {
+  background: #F6EFE6;
+  color: #6B5A4C;
+  box-shadow: none;
+}
+
+.follow-btn.rel-both {
+  background: #FFF1E6;
+  color: #E8432E;
+  border: 1rpx solid #FFC9A8;
+  box-shadow: none;
+}
+
+.msg-btn {
+  background: #ffffff;
+  color: #E8432E;
+  border: 1rpx solid #FFD9C4;
+}
+
+.msg-btn.disabled {
+  background: #F6EFE6;
+  color: #B3A292;
+  border-color: #F3E3D3;
+}
+
+.edit-placeholder {
+  background: #F6EFE6;
+  color: #6B5A4C;
+  font-weight: 600;
+}
+
+/* ---------- tab 条（筷子划痕） ---------- */
+
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  margin-top: 24rpx;
+  background: rgba(255, 246, 236, 0.96);
+  padding: 16rpx 32rpx 0;
+  gap: 52rpx;
+}
+
+.tab {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  font-size: 28rpx;
+  color: #9C8B7C;
+  transition: color 0.2s;
+}
+
+.tab.on {
+  color: #E8432E;
+  font-weight: 700;
+}
+
+.tab.on::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 64rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #FF6B35, #E8432E);
+  box-shadow: 0 2rpx 8rpx rgba(232, 67, 46, 0.35);
+}
+
+/* ---------- 作品列表 ---------- */
+
+.works {
+  padding-top: 24rpx;
+}
+
+.work-card {
+  background: #ffffff;
+  border: 1rpx solid #F3E3D3;
+  box-shadow: 0 10rpx 30rpx rgba(232, 67, 46, 0.09);
+}
+
+.work-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.work-dish {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.cook-tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+}
+
+.cook-time {
+  font-size: 22rpx;
+  color: #B3A292;
+}
+
+.cook-content {
+  font-size: 26rpx;
+  color: #6B5A4C;
+  margin-top: 8rpx;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.cook-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.cook-img {
+  width: calc((100% - 24rpx) / 3);
+  height: 216rpx;
+  border-radius: 16rpx;
+  background: #F6EFE6;
+}
+
+.work-img {
+  margin-top: 20rpx;
+  height: 300rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #F6EFE6;
+}
+
+/* 无图占位：渐变暖底 + 蒸汽 + 大 emoji（与饭小圈占位图同款语言） */
+.work-img-fallback {
+  position: relative;
+  overflow: hidden;
+}
+
+.work-img-emoji {
+  font-size: 110rpx;
+  line-height: 1;
+  filter: drop-shadow(0 10rpx 14rpx rgba(60, 25, 5, 0.25));
+}
+
+.steam-mini {
+  position: absolute;
+  top: 44rpx;
+  left: 120rpx;
+  width: 26rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  filter: blur(3rpx);
+  opacity: 0.7;
+  animation: steam-rise 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.steam-mini.s2 {
+  left: auto;
+  right: 130rpx;
+  top: 60rpx;
+  animation-delay: 1.2s;
+}
+
+.work-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.work-foot-right {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.like {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 0;
+}
+
+.like-icon {
+  font-size: 34rpx;
+  line-height: 1;
+}
+
+.like.liked .like-icon {
+  animation: heart-beat 0.5s ease-in-out;
+}
+
+@keyframes heart-beat {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+.like-num {
+  margin-left: 10rpx;
+  color: #9C8B7C;
+  font-size: 24rpx;
+}
+
+.like.liked .like-num {
+  color: #E8432E;
+  font-weight: 600;
+}
+
+.comment-count {
+  font-size: 24rpx;
+  color: #9C8B7C;
+}
+
+.del-btn {
+  font-size: 24rpx;
+  color: #E5484D;
+  background: #FDEDE6;
+  border-radius: 999rpx;
+  padding: 10rpx 24rpx;
+}
+
+/* ---------- 关注 / 粉丝列表 ---------- */
+
+.rel-card {
+  padding: 8rpx 32rpx;
+}
+
+.rel-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F3E3D3;
+}
+
+.rel-item:last-child {
+  border-bottom: none;
+}
+
+.rel-avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 2rpx #F3E3D3;
+}
+
+.rel-avatar-fallback {
+  background: linear-gradient(135deg, #FFB88A, #FF6B35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.rel-info {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.rel-nick-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.rel-nick {
+  font-size: 30rpx;
+  font-weight: 600;
+  max-width: 360rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mutual-tag {
+  font-size: 20rpx;
+  color: #E8432E;
+  background: #FFF1E6;
+  border-radius: 999rpx;
+  padding: 4rpx 16rpx;
+  flex-shrink: 0;
+}
+
+/* ---------- 空态 / 加载更多 ---------- */
+
+.list-empty {
+  text-align: center;
+  padding: 100rpx 48rpx;
+}
+
+.list-empty-emoji {
+  font-size: 84rpx;
+  filter: drop-shadow(0 8rpx 10rpx rgba(232, 67, 46, 0.2));
+}
+
+.list-empty-text {
+  font-size: 26rpx;
+  color: #B3A292;
+  margin-top: 20rpx;
+}
+
+.load-more {
+  text-align: center;
+  color: #E8432E;
+  font-size: 26rpx;
+  padding: 24rpx 0 8rpx;
+}

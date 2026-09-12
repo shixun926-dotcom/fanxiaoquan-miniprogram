@@ -1,0 +1,143 @@
+/**
+ * app.wxss —— 全局样式
+ * 设计主题：烟火实验室 · Warm Kitchen Lab（见 UI/设计规范.md）
+ * 暖灶台语境：蒸汽米白背景、炭黑棕文字、汤底红主色、暖橙阴影
+ */
+page {
+  background: #FFF6EC;
+  color: #241812;
+  font-size: 28rpx;
+  line-height: 1.6;
+  font-family: -apple-system, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 180rpx; /* 悬浮 Dock（custom-tab-bar）预留 */
+}
+
+/* 通用卡片：暖线描边 + 橙调暖阴影 */
+.card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin: 0 24rpx 24rpx;
+  border: 1rpx solid #F3E3D3;
+  box-shadow: 0 6rpx 20rpx rgba(232, 67, 46, 0.08);
+}
+
+/* 分类小标签 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  background: #FFF1E6;
+  color: #E8432E;
+}
+
+/* 主按钮：橙红渐变 + 酱汁挂壁内阴影 */
+.btn-primary {
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  box-shadow: inset 0 1rpx 0 rgba(232, 67, 46, 0.2), 0 6rpx 20rpx rgba(232, 67, 46, 0.12);
+}
+.btn-primary.disabled {
+  opacity: 0.45;
+}
+
+/* 次按钮：暖浅底 */
+.btn-ghost {
+  background: #F6EFE6;
+  color: #241812;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+/* 遮罩（弹层通用）：暖黑 */
+.mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(36, 24, 18, 0.55);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 分类 chips（转盘剔除 / 发帖 / 偏好共用） */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+.chip {
+  padding: 12rpx 24rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  background: #F6EFE6;
+  color: #6B5A4C;
+  border: 2rpx solid transparent;
+}
+.chip.on {
+  background: #FFF1E6;
+  color: #E8432E;
+  border-color: #FFC9A8;
+}
+.chip.off {
+  opacity: 0.42;
+  text-decoration: line-through;
+}
+
+/* 空状态 */
+.empty {
+  text-align: center;
+  color: #9C8B7C;
+  font-size: 26rpx;
+  padding: 48rpx 0;
+}
+
+/* ---------- 蒸汽语言（全 App 统一反馈符号） ---------- */
+
+/* 蒸汽：缓慢上升消散 */
+@keyframes steam-rise {
+  0% { transform: translateY(26rpx) scaleX(1); opacity: 0; }
+  30% { opacity: 0.55; }
+  100% { transform: translateY(-34rpx) scaleX(1.5); opacity: 0; }
+}
+
+/* 弹入（带一点回弹） */
+@keyframes pop-in {
+  from { transform: scale(0.7) translateY(20rpx); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* ---------- 头像框权益（成就徽章系统，2026-08-09） ----------
+ * 传说徽章 → 金框（暖金渐变 + 柔光，与徽章金边同语言）；
+ * 开发者徽章 / 集齐全部 → 虹彩框（conic 彩虹，与特殊稀有度同语言）
+ * 用法：头像外包一层 <view class="avatar-ring {{avatarRing}}">，avatarRing 为 '' / 'gold' / 'rainbow' */
+.avatar-ring {
+  border-radius: 50%;
+  line-height: 0; /* 消除容器内联间隙，避免头像下方出现空隙 */
+}
+
+.avatar-ring.gold {
+  padding: 4rpx;
+  background: linear-gradient(135deg, #FFF1B8, #D4AF37 45%, #9B7B29);
+  box-shadow: 0 2rpx 12rpx rgba(212, 175, 55, 0.5);
+}
+
+.avatar-ring.rainbow {
+  padding: 4rpx;
+  background: conic-gradient(from 0deg, #FFD37A, #E8432E, #FF6B35, #FFB400, #FFD37A);
+  box-shadow: 0 2rpx 12rpx rgba(232, 67, 46, 0.4);
+}

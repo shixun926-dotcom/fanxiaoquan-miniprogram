@@ -1,0 +1,128 @@
+<view class="page">
+  <!-- 模式切换 -->
+  <view class="mode-switch">
+    <view class="mode-pill {{mode === 'wheel' ? 'on' : ''}}" bindtap="switchMode" data-mode="wheel">🍲 转转盘</view>
+    <view class="mode-pill {{mode === 'box' ? 'on' : ''}}" bindtap="switchMode" data-mode="box">🧺 开盲盒</view>
+  </view>
+
+  <!-- 大锅转盘（hidden 保活 canvas 节点：wx:if 会销毁重建节点导致转盘丢失）
+       锅沿飘蒸汽、筷子指针、蘸料碟中心按钮，设计规范 4 -->
+  <view class="wheel-wrap" hidden="{{mode !== 'wheel'}}">
+    <view class="wheel-box">
+      <view class="steam s1"></view>
+      <view class="steam s2"></view>
+      <view class="steam s3"></view>
+      <view class="pointer">
+        <view class="rod r1"></view>
+        <view class="rod r2"></view>
+        <view class="tip"></view>
+      </view>
+      <canvas type="2d" id="wheel" class="wheel-canvas"></canvas>
+      <view class="saucer {{slideAnim ? 'hidden' : ''}}" bindtap="spin">
+        <view class="saucer-dot"></view>
+        <view class="saucer-text">{{spinning ? '…' : '开涮'}}</view>
+        <view class="saucer-sub">转转盘</view>
+      </view>
+    </view>
+    <view class="wheel-tip-row">
+      <view class="wheel-refresh {{refreshAnim ? 'anim' : ''}}" bindtap="onReshuffleTap">
+        <text class="refresh-icon">↻</text>
+        <text>换一批</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 蒸笼盲盒：摇笼 → 揭盖 → 热气喷涌 → 美食弹出（设计规范 5） -->
+  <view class="box-wrap" hidden="{{mode !== 'box'}}">
+    <view
+      class="steamer {{shaking ? 'shaking' : ''}} {{opening ? 'opening' : ''}} {{lidOpen ? 'lid-open' : ''}} {{boxResult ? 'opened' : ''}}"
+      bindtap="openBox"
+    >
+      <view class="puff-wrap">
+        <view
+          wx:for="{{puffs}}"
+          wx:key="index"
+          class="puff"
+          style="left:{{item.left}}rpx; top:{{item.top}}rpx; width:{{item.width}}rpx; height:{{item.height}}rpx; animation-delay:{{item.delay}}ms"
+        ></view>
+        <view
+          wx:for="{{sparks}}"
+          wx:key="index"
+          class="spark"
+          style="left:{{item.left}}rpx; top:{{item.top}}rpx; background:{{item.color}}; --dx:{{item.dx}}rpx; --dy:{{item.dy}}rpx"
+        ></view>
+      </view>
+      <view class="reveal">
+        <image
+          wx:if="{{reveal && reveal.img}}"
+          class="reveal-img"
+          src="{{reveal.img}}"
+          mode="aspectFill"
+          binderror="onImgError"
+          data-field="reveal"
+        />
+        <text wx:else>{{reveal ? reveal.emoji : ''}}</text>
+      </view>
+      <view class="lid"></view>
+      <view class="body">
+        <view class="seal">味</view>
+      </view>
+      <view class="box-label">{{opening ? '开笼中…' : (boxResult ? boxResult.dish + ' · 再点一下，换个盲盒' : '点一下，开笼有喜 🎁')}}</view>
+    </view>
+  </view>
+
+  <!-- 剔除不想吃的分类（转盘和盲盒都会避开） -->
+  <view class="card chips-card">
+    <view class="chips-title">
+      不想吃这些？点掉它
+      <text class="chips-sub">转盘和盲盒都会避开</text>
+    </view>
+    <view class="chip-row">
+      <view
+        wx:for="{{chips}}"
+        wx:key="name"
+        class="chip {{item.off ? 'off' : 'on'}}"
+        bindtap="toggleChip"
+        data-name="{{item.name}}"
+      >{{item.emoji}} {{item.name}}{{item.off ? ' ✕' : ''}}</view>
+    </view>
+  </view>
+
+  <!-- 结果弹层：复制 / 收藏 / 去点外卖 -->
+  <view class="mask" wx:if="{{popup.show}}" bindtap="closePopup">
+    <view class="result-card" catchtap="noop">
+      <view class="result-emoji">
+        <image
+          wx:if="{{popup.img}}"
+          class="result-img"
+          src="{{popup.img}}"
+          mode="aspectFill"
+          binderror="onImgError"
+          data-field="popup"
+        />
+        <text wx:else>{{popup.emoji}}</text>
+      </view>
+      <view class="result-dish">{{popup.dish}}</view>
+      <view class="result-tag">{{popup.category}} · 来自{{popup.source}}</view>
+      <view class="result-actions">
+        <view class="r-btn ghost" bindtap="copyDish">复制菜名</view>
+        <view class="r-btn ghost" bindtap="toggleFav">{{popup.faved ? '★ 已收藏' : '☆ 收藏'}}</view>
+        <view class="r-btn primary" bindtap="goOrder">去点外卖</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 外卖联动 L1 提示层 -->
+  <order-hint
+    show="{{hint.show}}"
+    dish="{{hint.dish}}"
+    platform-key="{{platformKey}}"
+    bind:close="closeHint"
+  />
+
+  <!-- 微信授权登录 -->
+  <login-panel show="{{showLogin}}" bind:close="closeLogin" />
+
+  <!-- 徽章解锁提示（成就徽章系统） -->
+  <badge-toast visible="{{showBadgeToast}}" badges="{{toastBadges}}" bind:close="onBadgeToastClose" />
+</view>

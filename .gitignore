@@ -1,0 +1,35 @@
+# ---------- 依赖 ----------
+node_modules/
+cloudfunctions/**/node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# ---------- 本地私有配置（含个人 appid / 本地设置，不入库）----------
+project.private.config.json
+
+# ---------- 密钥 / 敏感配置（请勿提交真实 AK/SK）----------
+utils/oss.local.js
+utils/secret.js
+*.pem
+*.key
+.env
+.env.*
+
+# ---------- 微信开发者工具 / IDE ----------
+.idea/
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- 运行期产物与日志 ----------
+.uploads/
+miniprogram_npm/
+*.log
+npm-debug.log*
+
+tools/gh-upload.js
+tools/gh-verify.js
+.git-upload-remote

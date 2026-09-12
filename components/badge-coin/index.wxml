@@ -1,0 +1,14 @@
+<view class="coin {{locked ? 'locked' : ''}}" style="width: {{size}}rpx; height: {{size}}rpx;">
+  <!-- 稀有度外环（大一圈的圆盘垫在底下，四周露出细圈） -->
+  <view class="coin-ring" style="inset: -{{ringInset}}rpx; background: {{ringCss}};"></view>
+  <!-- 主题底：径向渐变，圆心亮边缘暗 -->
+  <view class="coin-body" style="background: radial-gradient(circle at 50% 42%, {{c1}} 0%, {{c2}} 74%, rgba(0,0,0,.25) 100%);"></view>
+  <!-- 图标（占直径 84%，留 8% 金边距） -->
+  <image wx:if="{{uri}}" class="coin-icon" src="{{uri}}" mode="aspectFit"></image>
+  <!-- 流光：绕金边内侧旋转的光带（图标之上、金边之下） -->
+  <view wx:if="{{shimmer && !locked}}" class="coin-shimmer"></view>
+  <!-- 双层金边（最上层，光带从下方划过） -->
+  <view class="coin-rim"></view>
+  <!-- 未解锁锁标记 -->
+  <view wx:if="{{locked}}" class="lock-mark">🔒</view>
+</view>

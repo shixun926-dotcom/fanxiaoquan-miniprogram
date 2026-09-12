@@ -1,0 +1,21 @@
+<view class="page">
+  <view
+    class="card f-item"
+    wx:for="{{list}}"
+    wx:key="id"
+    bindtap="openDetail"
+    data-id="{{item.id}}"
+  >
+    <view class="f-item-head">
+      <view class="f-item-type">{{item.typeLabel}}</view>
+      <view class="f-status {{STATUS[item.status].cls}}">{{item.statusLabel}}</view>
+    </view>
+    <view class="f-item-content">{{item.content}}</view>
+    <view class="f-item-meta">
+      <text wx:if="{{item.imageCount}}">📷 {{item.imageCount}} 张 · </text>{{item.timeText}}
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{loaded && !list.length}}">还没有反馈，去提一条吧</view>
+  <view class="f-loading" wx:if="{{list.length && loading}}">加载中…</view>
+</view>

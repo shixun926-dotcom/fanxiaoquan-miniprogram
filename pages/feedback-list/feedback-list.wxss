@@ -1,0 +1,74 @@
+/* pages/feedback-list —— 我的反馈列表（烟火实验室 · Warm Kitchen Lab 设计令牌） */
+
+.f-item {
+  padding: 28rpx 32rpx;
+}
+
+.f-item:active {
+  background: #FFF8F0;
+}
+
+.f-item-head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 14rpx;
+}
+
+/* 类型标签（陶土主色） */
+.f-item-type {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #E8432E;
+  background: #FFF1E6;
+  border-radius: 999rpx;
+  padding: 6rpx 18rpx;
+}
+
+/* 状态徽章：待处理=灰、处理中=暖橙、已处理=葱绿（UI/图标更换设计规格.md 5.4 状态色与图标一一对应） */
+.f-status {
+  font-size: 22rpx;
+  font-weight: 600;
+  border-radius: 999rpx;
+  padding: 6rpx 18rpx;
+}
+
+.f-status.pending {
+  background: #F1EFEC;
+  color: #A8A19A;
+}
+
+.f-status.processing {
+  background: #FFF3DF;
+  color: #FFB020;
+}
+
+.f-status.resolved {
+  background: #EAF6EC;
+  color: #73B84B;
+}
+
+/* 内容摘要：两行截断 */
+.f-item-content {
+  font-size: 28rpx;
+  color: #241812;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.f-item-meta {
+  font-size: 22rpx;
+  color: #B3A292;
+  margin-top: 14rpx;
+}
+
+.f-loading {
+  text-align: center;
+  color: #B3A292;
+  font-size: 24rpx;
+  padding: 24rpx 0 40rpx;
+}

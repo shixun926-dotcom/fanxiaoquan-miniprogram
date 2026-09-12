@@ -1,0 +1,113 @@
+/* 成就徽章圆盘 · 设计须知：正圆双层金边 / 径向渐变底 / 稀有度外环 / 流光 */
+.coin {
+  position: relative;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* 未解锁：整体灰显 */
+.coin.locked {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+/* 稀有度外环：大一整圈的圆盘垫在底下，四周露出细圈 */
+.coin-ring {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  box-shadow: 0 4rpx 14rpx rgba(0, 0, 0, 0.18);
+}
+
+/* 主题底：径向渐变圆心亮边缘暗 */
+.coin-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: inset 0 3rpx 6rpx rgba(255, 241, 184, 0.55), inset 0 -5rpx 12rpx rgba(0, 0, 0, 0.18);
+}
+
+/* 图标：占直径 84%，四周留 8% 金边距 */
+.coin-icon {
+  position: absolute;
+  left: 8%;
+  top: 8%;
+  width: 84%;
+  height: 84%;
+  z-index: 1;
+}
+
+/* 流光：白色光带，绕金边内侧顺时针旋转；3s/圈 + 0.2s 停顿（3.2s 周期，94% 转满圈）
+   透明度常规低亮、划过图标时峰值（opacity 脉冲近似） */
+.coin-shimmer {
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0) 0deg,
+    rgba(255, 255, 255, 0.04) 265deg,
+    rgba(255, 255, 255, 0.42) 298deg,
+    rgba(255, 255, 255, 0.08) 330deg,
+    rgba(255, 255, 255, 0) 360deg
+  );
+  animation: shimmer-spin 3.2s linear infinite, shimmer-op 3.2s linear infinite;
+}
+
+@keyframes shimmer-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  94% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer-op {
+  0% {
+    opacity: 0.55; /* 常规低亮 */
+  }
+  45% {
+    opacity: 1; /* 划过图标峰值 */
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+/* 双层金边：外圈暖金 #D4AF37 + 内圈高光 #FFF1B8 + 阴影 #9B7B29（微浮雕） */
+.coin-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 3;
+  border: 3rpx solid #d4af37;
+  box-shadow: inset 0 0 0 2rpx #fff1b8, inset 0 0 0 5rpx #9b7b29, inset 0 0 10rpx rgba(0, 0, 0, 0.22);
+}
+
+/* 未解锁锁标记 */
+.lock-mark {
+  position: absolute;
+  right: -3rpx;
+  bottom: -3rpx;
+  width: 30%;
+  height: 30%;
+  min-width: 22rpx;
+  min-height: 22rpx;
+  border-radius: 50%;
+  background: #fff;
+  border: 1rpx solid #f3e3d3;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
+}

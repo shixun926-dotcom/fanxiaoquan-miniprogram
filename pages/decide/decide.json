@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "order-hint": "/components/order-hint/index",
+    "login-panel": "/components/login-panel/index",
+    "badge-toast": "/components/badge-toast/index"
+  },
+  "navigationBarTitleText": "决定"
+}

@@ -1,0 +1,547 @@
+<view class="page">
+  <!-- 子 tab 条：饭小圈 | 附近 | 大厨TV -->
+  <view class="sub-tabs">
+    <view
+      class="sub-tab {{subTab === 'feed' ? 'on' : ''}}"
+      bindtap="switchSubTab"
+      data-tab="feed"
+    >饭小圈</view>
+    <view
+      class="sub-tab {{subTab === 'nearby' ? 'on' : ''}}"
+      bindtap="switchSubTab"
+      data-tab="nearby"
+    >附近</view>
+    <view
+      class="sub-tab {{subTab === 'cooktv' ? 'on' : ''}}"
+      bindtap="switchSubTab"
+      data-tab="cooktv"
+    >大厨TV</view>
+  </view>
+
+  <!-- 搜索条（检索功能 F1：三个子栏目共用，placeholder 随栏目变化，点击进入搜索态） -->
+  <view class="search-bar">
+    <view class="search-box" bindtap="focusSearch">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="{{subTab === 'cooktv' ? '搜索教程标题 / 内容' : '搜索菜名 / 分类 / 昵称'}}"
+        placeholder-class="ph"
+        value="{{searchKeyword}}"
+        focus="{{searchFocus}}"
+        confirm-type="search"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+      />
+      <view class="search-clear" wx:if="{{searchKeyword}}" catchtap="clearSearch">✕</view>
+    </view>
+    <view class="search-cancel" wx:if="{{searchActive}}" bindtap="cancelSearch">取消</view>
+  </view>
+
+  <!-- 搜索态结果计数（服务端匹配总数，上限 100） -->
+  <view class="search-total" wx:if="{{searchActive && searchTotal > 0}}">共 {{searchTotal}} 条结果</view>
+  <view class="search-loading" wx:if="{{searchActive && searchLoading && !searchResults.length}}">搜索中…</view>
+
+  <!-- 附近检索无定位引导（与附近列表同一套引导） -->
+  <view class="nearby-guide" wx:if="{{searchActive && searchNeedLocation}}">
+    <view class="nearby-guide-emoji">📍</view>
+    <view class="nearby-guide-title">需要位置权限</view>
+    <view class="nearby-guide-sub">开启定位后，才能搜索附近 50km 内的晒吃</view>
+    <view class="nearby-guide-btn" bindtap="enableLocation">开启定位</view>
+  </view>
+
+  <!-- 饭小圈头部（品牌主图标 + 标题，图标取自客户交付 UI/Photos 设计稿） -->
+  <view class="feed-head" wx:if="{{subTab === 'feed'}}">
+    <view class="feed-head-title">
+      <image class="feed-head-logo" src="/images/brand/logo-128.png" mode="aspectFill" />
+      <text>饭小圈</text>
+    </view>
+    <view class="feed-head-sub">看看附近的人都在吃什么 👀</view>
+  </view>
+
+  <!-- 附近头部 -->
+  <view class="feed-head" wx:if="{{subTab === 'nearby'}}">
+    <view class="feed-head-title">附近</view>
+    <view class="feed-head-sub">50km 内大家在吃什么 📍</view>
+  </view>
+
+  <!-- 附近：当前定位地址 + 手动刷新（无授权时由下方引导卡接管） -->
+  <view class="nearby-loc" wx:if="{{subTab === 'nearby' && nearbyAddress}}">
+    <text class="nearby-loc-txt">📍 当前定位：{{nearbyAddress}}</text>
+    <view class="nearby-loc-refresh" bindtap="refreshLoc">刷新</view>
+  </view>
+
+  <!-- 附近：位置权限引导 -->
+  <view class="nearby-guide" wx:if="{{subTab === 'nearby' && nearbyNeedLocation}}">
+    <view class="nearby-guide-emoji">📍</view>
+    <view class="nearby-guide-title">需要位置权限</view>
+    <view class="nearby-guide-sub">开启定位后，可查看附近 50km 内大家的晒吃</view>
+    <view class="nearby-guide-btn" bindtap="enableLocation">开启定位</view>
+  </view>
+
+  <!-- 帖子列表（饭小圈 / 附近共用同一套卡片；搜索态展示搜索结果） -->
+  <view class="feed-list" wx:if="{{subTab === 'feed' || subTab === 'nearby'}}">
+    <block
+      wx:for="{{searchActive ? searchResults : (subTab === 'feed' ? posts : nearbyPosts)}}"
+      wx:key="id"
+    >
+      <view class="card post">
+        <view class="post-head">
+          <!-- 用户发帖展示「我的」页授权头像；附近的人的种子帖用表情头像（点击进主页）；头像框权益 gold/rainbow -->
+          <view class="avatar-ring {{item.avatarRing}}">
+            <image
+              wx:if="{{item.avatarUrl}}"
+              class="avatar"
+              src="{{item.avatarUrl}}"
+              mode="aspectFill"
+              bindtap="openUser"
+              data-author-openid="{{item.authorOpenid}}"
+            />
+            <view
+              wx:else
+              class="avatar"
+              style="background: {{item.avatarColor}}"
+              bindtap="openUser"
+              data-author-openid="{{item.authorOpenid}}"
+            >{{item.avatar}}</view>
+          </view>
+          <view class="post-meta">
+            <view class="post-nick-row">
+              <text class="post-nick">{{item.nickname}}</text>
+              <text class="lv-badge" style="background: {{item.lvColor}}">Lv.{{item.posterLevel}}</text>
+              <!-- 徽章展示位：仅展示已拥有的（目录顺序前 5 枚），点击展开全部徽章 -->
+              <view
+                wx:if="{{item.displayBadges.length}}"
+                class="nick-badges"
+                bindtap="openBadgesPanel"
+                data-list-key="{{subTab === 'feed' ? 'posts' : 'nearbyPosts'}}"
+                data-idx="{{index}}"
+              >
+                <badge-coin
+                  class="nick-badge"
+                  wx:for="{{item.displayBadges}}"
+                  wx:key="key"
+                  key="{{item.key}}"
+                  size="40"
+                  shimmer="{{false}}"
+                  locked="{{!item.unlocked}}"
+                ></badge-coin>
+                <view class="nick-badge-more">全部 ›</view>
+              </view>
+            </view>
+            <view class="post-sub">{{item.distance}} · {{item.time}}</view>
+          </view>
+        </view>
+
+        <view class="post-body">
+          <view class="post-dish">{{item.dish}}</view>
+          <view class="tag" wx:if="{{item.category && item.category !== '未分类'}}">{{item.categoryEmoji}} {{item.category}}</view>
+        </view>
+
+        <image
+          wx:if="{{item.imageUrl}}"
+          class="post-img"
+          src="{{item.imageUrl}}"
+          mode="aspectFill"
+        />
+        <image
+          wx:elif="{{item.img}}"
+          class="post-img"
+          src="{{item.img}}"
+          mode="aspectFill"
+          binderror="onPostImgError"
+          data-id="{{item.id}}"
+        />
+        <view wx:else class="post-img" style="background: {{item.gradient}}">
+          <view class="steam-mini"></view>
+          <view class="steam-mini s2"></view>
+          <text class="post-img-emoji">{{item.emoji}}</text>
+        </view>
+
+        <view class="post-foot">
+          <view class="post-foot-left">
+            <view class="like {{item.liked ? 'liked' : ''}}" bindtap="toggleLike" data-id="{{item.id}}">
+              <text class="like-icon">{{item.liked ? '❤️' : '🤍'}}</text>
+              <text class="like-num">{{item.likeCount}}</text>
+            </view>
+            <!-- 踩：默认中心白色裂心，点击后变灰（请求成功后该帖子对本人生效隐藏） -->
+            <view class="dislike {{item.disliked ? 'done' : ''}}" bindtap="hidePost" data-id="{{item.id}}">
+              <text class="dislike-icon">💔</text>
+            </view>
+          </view>
+          <view class="post-foot-right">
+            <view class="comment-btn" bindtap="toggleComment" data-id="{{item.id}}">
+              <text>💬</text>
+              <text class="comment-btn-num" wx:if="{{item.commentCount}}">{{item.commentCount}}</text>
+            </view>
+            <view class="copy-btn" bindtap="copyDish" data-dish="{{item.dish}}">复制菜名</view>
+            <view class="del-btn" wx:if="{{item.userPost}}" bindtap="deletePost" data-id="{{item.id}}">删除</view>
+          </view>
+        </view>
+
+        <!-- 评论区（帖子） -->
+        <view class="comment-panel" wx:if="{{commentsMap[item.id].show}}">
+          <view class="comment-list">
+            <view
+              class="comment-item"
+              wx:for="{{commentsMap[item.id].list}}"
+              wx:key="id"
+              wx:for-item="c"
+            >
+              <image
+                wx:if="{{c.avatarUrl}}"
+                class="comment-avatar"
+                src="{{c.avatarUrl}}"
+                mode="aspectFill"
+                bindtap="openUser"
+                data-author-openid="{{c.authorOpenid}}"
+              />
+              <view
+                wx:else
+                class="comment-avatar"
+                bindtap="openUser"
+                data-author-openid="{{c.authorOpenid}}"
+              >😊</view>
+              <view class="comment-main">
+                <view class="comment-nick-row">
+                  <text class="comment-nick">{{c.nickname}}</text>
+                  <text class="comment-mine" wx:if="{{c.mine}}">我</text>
+                </view>
+                <view class="comment-content">{{c.content}}</view>
+                <view class="comment-time">{{c.time}}</view>
+              </view>
+            </view>
+            <view
+              class="comment-empty"
+              wx:if="{{!commentsMap[item.id].loading && !commentsMap[item.id].list.length}}"
+            >还没有评论，来抢个沙发～</view>
+          </view>
+          <view class="comment-input-row">
+            <input
+              class="comment-input"
+              placeholder="说点什么…"
+              placeholder-class="ph"
+              value="{{commentsMap[item.id].draft}}"
+              bindinput="onCommentInput"
+              bindconfirm="sendComment"
+              data-id="{{item.id}}"
+              maxlength="100"
+              confirm-type="send"
+            />
+            <view class="comment-send" bindtap="sendComment" data-id="{{item.id}}">发送</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 搜索态空态 -->
+  <view
+    class="feed-empty"
+    wx:if="{{searchActive && searchLoaded && !searchLoading && !searchResults.length && !searchNeedLocation}}"
+  >
+    <view class="feed-empty-emoji">🔍</view>
+    <view class="feed-empty-title">没有找到相关结果</view>
+    <view class="feed-empty-sub">换个关键词试试</view>
+  </view>
+
+  <!-- 饭小圈空态 -->
+  <view class="feed-empty" wx:if="{{subTab === 'feed' && !posts.length}}">
+    <view class="feed-empty-emoji">🍽️</view>
+    <view class="feed-empty-title">饭小圈还空空如也</view>
+    <view class="feed-empty-sub">点右下角「＋晒吃」，分享你的第一顿吧</view>
+  </view>
+
+  <!-- 附近空态 -->
+  <view
+    class="feed-empty"
+    wx:if="{{subTab === 'nearby' && !nearbyNeedLocation && !nearbyLoading && !nearbyPosts.length}}"
+  >
+    <view class="feed-empty-emoji">🗺️</view>
+    <view class="feed-empty-title">附近 50km 还没有人晒吃</view>
+    <view class="feed-empty-sub">去饭小圈发一条，或换个城市看看</view>
+  </view>
+
+  <!-- 大厨TV 视图 -->
+  <block wx:if="{{subTab === 'cooktv'}}">
+    <view class="feed-head">
+      <view class="feed-head-title">大厨TV</view>
+      <view class="feed-head-sub">看看大家怎么做饭 👨‍🍳</view>
+    </view>
+
+    <view class="feed-list">
+      <view class="card post" wx:for="{{searchActive ? searchResults : cooks}}" wx:key="id">
+        <view class="post-head">
+          <view class="avatar-ring {{item.avatarRing}}">
+            <image
+              wx:if="{{item.avatarUrl}}"
+              class="avatar"
+              src="{{item.avatarUrl}}"
+              mode="aspectFill"
+              bindtap="openUser"
+              data-author-openid="{{item.authorOpenid}}"
+            />
+            <view
+              wx:else
+              class="avatar"
+              style="background: {{item.avatarColor}}"
+              bindtap="openUser"
+              data-author-openid="{{item.authorOpenid}}"
+            >{{item.avatar}}</view>
+          </view>
+          <view class="post-meta">
+            <view class="post-nick-row">
+              <text class="post-nick">{{item.nickname}}</text>
+              <text class="lv-badge" style="background: {{item.lvColor}}">Lv.{{item.posterLevel}}</text>
+              <!-- 徽章展示位：仅展示已拥有的（目录顺序前 5 枚），点击展开全部徽章 -->
+              <view
+                wx:if="{{item.displayBadges.length}}"
+                class="nick-badges"
+                bindtap="openBadgesPanel"
+                data-list-key="cooks"
+                data-idx="{{index}}"
+              >
+                <badge-coin
+                  class="nick-badge"
+                  wx:for="{{item.displayBadges}}"
+                  wx:key="key"
+                  key="{{item.key}}"
+                  size="40"
+                  shimmer="{{false}}"
+                  locked="{{!item.unlocked}}"
+                ></badge-coin>
+                <view class="nick-badge-more">全部 ›</view>
+              </view>
+            </view>
+            <view class="post-sub">{{item.time}}</view>
+          </view>
+        </view>
+
+        <view class="cook-title">{{item.title}}</view>
+        <view class="cook-content" wx:if="{{item.content}}">{{item.content}}</view>
+
+        <view class="cook-imgs" wx:if="{{item.images.length}}">
+          <image
+            class="cook-img"
+            wx:for="{{item.images}}"
+            wx:key="*this"
+            src="{{img}}"
+            mode="aspectFill"
+            bindtap="previewImage"
+            data-url="{{img}}"
+            data-urls="{{item.images}}"
+          />
+        </view>
+
+        <view class="post-foot">
+          <view class="like {{item.liked ? 'liked' : ''}}" bindtap="toggleCookLike" data-id="{{item.id}}">
+            <text class="like-icon">{{item.liked ? '❤️' : '🤍'}}</text>
+            <text class="like-num">{{item.likeCount}}</text>
+          </view>
+          <view class="post-foot-right">
+            <view class="comment-btn" bindtap="toggleCookComment" data-id="{{item.id}}">
+              <text>💬</text>
+              <text class="comment-btn-num" wx:if="{{item.commentCount}}">{{item.commentCount}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 评论区（教程） -->
+        <view class="comment-panel" wx:if="{{cookCommentsMap[item.id].show}}">
+          <view class="comment-list">
+            <view
+              class="comment-item"
+              wx:for="{{cookCommentsMap[item.id].list}}"
+              wx:key="id"
+              wx:for-item="c"
+            >
+              <image
+                wx:if="{{c.avatarUrl}}"
+                class="comment-avatar"
+                src="{{c.avatarUrl}}"
+                mode="aspectFill"
+                bindtap="openUser"
+                data-author-openid="{{c.authorOpenid}}"
+              />
+              <view
+                wx:else
+                class="comment-avatar"
+                bindtap="openUser"
+                data-author-openid="{{c.authorOpenid}}"
+              >😊</view>
+              <view class="comment-main">
+                <view class="comment-nick-row">
+                  <text class="comment-nick">{{c.nickname}}</text>
+                  <text class="comment-mine" wx:if="{{c.mine}}">我</text>
+                </view>
+                <view class="comment-content">{{c.content}}</view>
+                <view class="comment-time">{{c.time}}</view>
+              </view>
+            </view>
+            <view
+              class="comment-empty"
+              wx:if="{{!cookCommentsMap[item.id].loading && !cookCommentsMap[item.id].list.length}}"
+            >还没有评论，来抢个沙发～</view>
+          </view>
+          <view class="comment-input-row">
+            <input
+              class="comment-input"
+              placeholder="说点什么…"
+              placeholder-class="ph"
+              value="{{cookCommentsMap[item.id].draft}}"
+              bindinput="onCookCommentInput"
+              bindconfirm="sendCookComment"
+              data-id="{{item.id}}"
+              maxlength="100"
+              confirm-type="send"
+            />
+            <view class="comment-send" bindtap="sendCookComment" data-id="{{item.id}}">发送</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="feed-empty" wx:if="{{!cooks.length && !searchActive}}">
+      <view class="feed-empty-emoji">👨‍🍳</view>
+      <view class="feed-empty-title">还没有做饭教程</view>
+      <view class="feed-empty-sub">点右下角「＋教程」，分享你的做饭经历</view>
+    </view>
+  </block>
+
+  <!-- 发帖入口（饭小圈，每日上限 3 条，发满置灰；搜索态隐藏） -->
+  <view
+    class="fab {{todayPostCount >= 3 ? 'disabled' : ''}}"
+    wx:if="{{subTab === 'feed' && !searchActive}}"
+    bindtap="openPost"
+  >＋ 晒吃</view>
+
+  <!-- 大厨TV 发帖入口（搜索态隐藏） -->
+  <view class="fab" wx:if="{{subTab === 'cooktv' && !searchActive}}" bindtap="openCookModal">＋ 教程</view>
+
+  <!-- 晒吃发帖弹窗 -->
+  <view class="mask" wx:if="{{postModal}}" bindtap="closePost">
+    <view class="post-sheet" catchtap="noop">
+      <view class="sheet-title">晒一晒你吃了什么</view>
+
+      <input
+        class="sheet-input"
+        placeholder="菜名，比如：重庆老火锅"
+        placeholder-class="ph"
+        value="{{form.dish}}"
+        bindinput="onDishInput"
+        maxlength="20"
+      />
+
+      <view class="sheet-label">分类（可选）</view>
+      <view class="chip-row">
+        <view
+          wx:for="{{categories}}"
+          wx:key="name"
+          class="chip {{form.category === item.name ? 'on' : ''}}"
+          bindtap="pickCategory"
+          data-name="{{item.name}}"
+        >{{item.emoji}} {{item.name}}</view>
+      </view>
+
+      <view class="sheet-label">晒图（上传到阿里云 OSS，可不传）</view>
+      <view class="upload-box" bindtap="pickImage">
+        <image
+          wx:if="{{form.imagePath}}"
+          class="upload-preview"
+          src="{{form.imagePath}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="upload-placeholder">
+          <view class="upload-plus">＋</view>
+          <view class="upload-text">{{uploading ? '上传中…' : '上传图片'}}</view>
+        </view>
+      </view>
+      <view class="upload-ops" wx:if="{{form.imagePath}}">
+        <view class="op-link" bindtap="removeImage">移除图片</view>
+        <view class="op-hint">{{uploading ? '正在上传到 OSS…' : '上传后将永久保存到 fanxiaoquan 桶'}}</view>
+      </view>
+
+      <view class="sheet-actions">
+        <view class="btn-ghost" bindtap="closePost">取消</view>
+        <view class="btn-primary {{canPublish ? '' : 'disabled'}}" bindtap="publish">发布</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 大厨TV 发布弹窗（一条最多 9 张图） -->
+  <view class="mask" wx:if="{{cookModal}}" bindtap="closeCookModal">
+    <view class="post-sheet" catchtap="noop">
+      <view class="sheet-title">发布做饭教程 / 经历</view>
+
+      <input
+        class="sheet-input"
+        placeholder="标题，比如：红烧肉三步攻略"
+        placeholder-class="ph"
+        value="{{cookForm.title}}"
+        bindinput="onCookTitleInput"
+        maxlength="30"
+      />
+
+      <textarea
+        class="cook-textarea"
+        placeholder="写写你的教程步骤、食材、心得…"
+        placeholder-class="ph"
+        value="{{cookForm.content}}"
+        bindinput="onCookContentInput"
+        maxlength="500"
+      />
+
+      <view class="sheet-label">配图（最多 9 张，可不传）</view>
+      <view class="cook-upload-grid">
+        <view class="cook-upload-item" wx:for="{{cookForm.imagePaths}}" wx:key="*this">
+          <image
+            class="cook-upload-img"
+            src="{{item}}"
+            mode="aspectFill"
+            bindtap="previewImage"
+            data-url="{{item}}"
+            data-urls="{{cookForm.imagePaths}}"
+          />
+          <view class="cook-upload-del" catchtap="removeCookImage" data-index="{{index}}">×</view>
+        </view>
+        <view
+          class="cook-upload-add"
+          wx:if="{{cookForm.imagePaths.length < 9}}"
+          bindtap="pickCookImages"
+        >
+          <view class="upload-plus">＋</view>
+          <view class="cook-upload-add-text">{{cookUploading ? '上传中…' : '添加'}}</view>
+        </view>
+      </view>
+
+      <view class="sheet-actions">
+        <view class="btn-ghost" bindtap="closeCookModal">取消</view>
+        <view class="btn-primary {{cookCanPublish ? '' : 'disabled'}}" bindtap="publishCook">
+          {{cookUploading ? '发布中…' : '发布'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 外卖联动 L1 提示层 -->
+  <order-hint
+    show="{{hint.show}}"
+    dish="{{hint.dish}}"
+    platform-key="{{platformKey}}"
+    bind:close="closeHint"
+  />
+
+  <!-- 微信授权登录 -->
+  <login-panel show="{{showLogin}}" bind:close="closeLogin" />
+
+  <!-- 徽章详情弹层 / 解锁提示 / 全部徽章展开面板（成就徽章系统） -->
+  <badge-modal visible="{{showBadgeModal}}" badge="{{curBadge}}" bind:close="onBadgeModalClose" />
+  <badge-toast visible="{{showBadgeToast}}" badges="{{toastBadges}}" bind:close="onBadgeToastClose" />
+  <badge-all
+    visible="{{showAllBadges}}"
+    list="{{allBadges}}"
+    unlocked-count="{{allUnlockedCount}}"
+    total="{{badgeTotal}}"
+    bind:tapBadge="onAllBadgeTap"
+    bind:close="onAllBadgesClose"
+  />
+</view>

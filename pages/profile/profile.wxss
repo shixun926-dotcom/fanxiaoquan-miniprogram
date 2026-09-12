@@ -1,0 +1,511 @@
+/* pages/profile —— 我的（烟火实验室 · Warm Kitchen Lab 设计规范）
+ * 星级食神徽章 + 一碗饭进度条（设计规范 6） */
+
+/* ---------- 用户头部 ---------- */
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFB88A, #FF6B35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52rpx;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 2rpx #F3E3D3;
+}
+
+.avatar-img {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: #F6EFE6;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 2rpx #F3E3D3;
+}
+
+/* 首行右侧操作组：退出（警示红）+ 更多（品牌橙），间距 16rpx（打赏功能设计文档 F1） */
+.head-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-shrink: 0;
+}
+
+.head-action {
+  font-size: 24rpx;
+  padding: 10rpx 26rpx;
+  border-radius: 999rpx;
+  flex-shrink: 0;
+}
+
+.head-action.login {
+  background: #FFF1E6;
+  color: #E8432E;
+  font-weight: 600;
+}
+
+.head-action.logout {
+  background: #FDEDE6;
+  color: #E5484D;
+}
+
+/* 更多按钮（次要入口，视觉权重不高于退出）：暖色浅底 + 品牌橙 + 浅橙描边 */
+.more-btn {
+  font-size: 24rpx;
+  padding: 10rpx 26rpx;
+  border-radius: 999rpx;
+  background: #FFF1E6;
+  color: #FF8A1F;
+  border: 1rpx solid #FFD9C4;
+  flex-shrink: 0;
+}
+
+.more-btn:active {
+  opacity: 0.8;
+}
+
+.head-info {
+  margin-left: 24rpx;
+  min-width: 0;
+}
+
+.head-name {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.head-sub {
+  color: #9C8B7C;
+  font-size: 24rpx;
+  margin-top: 4rpx;
+}
+
+/* ---------- 社交入口（我的主页 + 消息红点） ---------- */
+
+.entry-row {
+  display: flex;
+  align-items: center;
+  margin-top: 8rpx;
+  padding: 8rpx 0;
+}
+
+.entry {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20rpx 24rpx;
+}
+
+.entry:active {
+  background: #FFF4E8;
+  border-radius: 24rpx;
+}
+
+.entry-emoji {
+  font-size: 44rpx;
+  width: 64rpx;
+  text-align: center;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4rpx 6rpx rgba(232, 67, 46, 0.18));
+}
+
+.entry-info {
+  flex: 1;
+  margin-left: 16rpx;
+  min-width: 0;
+}
+
+.entry-title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.entry-sub {
+  font-size: 22rpx;
+  color: #9C8B7C;
+  margin-top: 2rpx;
+}
+
+.entry-arrow {
+  color: #C9B8A8;
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+
+/* 未读红点（V2 F9） */
+.entry-badge {
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 10rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  color: #ffffff;
+  font-size: 22rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4rpx 10rpx rgba(232, 67, 46, 0.35);
+}
+
+.entry-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: #F3E3D3;
+  flex-shrink: 0;
+}
+
+/* ---------- 概览 ---------- */
+
+.stats-row {
+  display: flex;
+  gap: 20rpx;
+  padding: 0 24rpx 24rpx;
+}
+
+.stat {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  padding: 28rpx 0;
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #E8432E;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #9C8B7C;
+  margin-top: 4rpx;
+}
+
+/* ---------- 区块 ---------- */
+
+.section {
+  margin-bottom: 8rpx;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8rpx 32rpx 16rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  padding: 8rpx 32rpx 16rpx;
+}
+
+.section-title-row .section-title {
+  padding: 0;
+}
+
+.link {
+  font-size: 26rpx;
+  color: #E8432E;
+}
+
+.section-sub {
+  font-size: 22rpx;
+  color: #B3A292;
+  margin-top: 16rpx;
+}
+
+/* ---------- 列表行 ---------- */
+
+.list-card {
+  padding: 8rpx 32rpx;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #F3E3D3;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row-emoji {
+  font-size: 44rpx;
+  width: 64rpx;
+  text-align: center;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4rpx 6rpx rgba(232, 67, 46, 0.18));
+}
+
+/* 收藏 / 历史行菜品图（与 row-emoji 同位，圆角小图；加载失败回退 emoji） */
+.row-img {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 14rpx;
+  flex-shrink: 0;
+}
+
+.row-info {
+  flex: 1;
+  margin-left: 16rpx;
+  min-width: 0;
+}
+
+.row-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-sub {
+  font-size: 22rpx;
+  color: #9C8B7C;
+}
+
+.row-ops {
+  display: flex;
+  gap: 12rpx;
+}
+
+.op {
+  font-size: 24rpx;
+  color: #6B5A4C;
+  background: #F6EFE6;
+  border-radius: 999rpx;
+  padding: 8rpx 22rpx;
+}
+
+.op.danger {
+  color: #E5484D;
+  background: #FDEDE6;
+}
+
+/* ---------- 等级卡片（星级食神） ---------- */
+
+.level-card {
+  margin-top: 8rpx;
+}
+
+.level-row {
+  display: flex;
+  align-items: center;
+}
+
+/* 星级徽章：白底圆盘 + conic-gradient 光环（--ring 由 JS 按称号色/进度生成） */
+.badge {
+  position: relative;
+  width: 178rpx;
+  height: 178rpx;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 10rpx 24rpx rgba(232, 67, 46, 0.14), inset 0 0 0 2rpx #F3E3D3;
+}
+
+/* 光环柔光 */
+.badge::before {
+  content: '';
+  position: absolute;
+  inset: -20rpx;
+  border-radius: 50%;
+  background: var(--ring, #FFB400);
+  filter: blur(14rpx);
+  opacity: 0.28;
+  z-index: -1;
+}
+
+/* conic-gradient 进度光环 */
+.badge::after {
+  content: '';
+  position: absolute;
+  inset: -10rpx;
+  border-radius: 50%;
+  background: var(--ring, #FFB400);
+  z-index: -2;
+}
+
+.lv-num {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #241812;
+  line-height: 1.2;
+}
+
+.lv-app {
+  font-size: 18rpx;
+  color: #9C8B7C;
+  letter-spacing: 4rpx;
+  margin-top: 2rpx;
+}
+
+/* 悬浮称号 emoji（随光环轻轻浮动） */
+.lv-emoji {
+  font-size: 44rpx;
+  line-height: 1;
+  margin-top: 8rpx;
+  animation: emoji-float 2.6s ease-in-out infinite;
+}
+
+@keyframes emoji-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8rpx); }
+}
+
+.level-info {
+  flex: 1;
+  margin-left: 40rpx;
+  min-width: 0;
+}
+
+.level-title {
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.level-tagline {
+  font-size: 24rpx;
+  color: #9C8B7C;
+  margin-top: 4rpx;
+}
+
+/* 一碗饭进度条：米色碗 + 金灿灿的饭 + 筷子勺子 */
+.rice-bar {
+  position: relative;
+  margin-top: 22rpx;
+  height: 18rpx;
+  border-radius: 999rpx;
+  background: #F2E3CF; /* 碗身 */
+  box-shadow: inset 0 2rpx 4rpx rgba(180, 130, 80, 0.25);
+}
+
+.rice-fill {
+  position: relative;
+  height: 100%;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #FFD37A, #FFB400 55%, #FF8A3D);
+  box-shadow: 0 2rpx 6rpx rgba(255, 180, 0, 0.4);
+  transition: width 0.4s ease;
+  overflow: hidden;
+}
+
+/* 米粒纹理 */
+.rice-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.35) 0 10rpx,
+    transparent 10rpx 22rpx
+  );
+}
+
+/* 勺子：跟随进度把饭舀起来 */
+.spoon {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 26rpx;
+  line-height: 1;
+  filter: drop-shadow(0 2rpx 3rpx rgba(0, 0, 0, 0.2));
+  transition: left 0.4s ease;
+  z-index: 2;
+}
+
+.level-tip {
+  font-size: 22rpx;
+  color: #B3A292;
+  margin-top: 12rpx;
+}
+
+.level-next {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #E8432E;
+  background: #FFF1E6;
+  border-radius: 999rpx;
+  padding: 8rpx 20rpx;
+  display: inline-block;
+  margin-top: 16rpx;
+}
+
+/* ---------- 成就徽章墙（等级卡下方，设计文档 5.2） ---------- */
+.badge-wall {
+  padding: 24rpx 24rpx 28rpx;
+}
+
+.wall-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22rpx;
+}
+
+.wall-title {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #241812;
+}
+
+.wall-cnt {
+  font-size: 24rpx;
+  font-weight: 800;
+  color: #E8432E;
+  background: #FFF1E6;
+  border-radius: 999rpx;
+  padding: 4rpx 18rpx;
+}
+
+.wall-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24rpx 8rpx;
+}
+
+.wall-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.wall-name {
+  font-size: 20rpx;
+  color: #6B5A4C;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ---------- 最近决定 / 徽章墙：展开/折叠（同款交互） ---------- */
+
+.history-toggle,
+.wall-toggle {
+  text-align: center;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #E8432E;
+  padding: 20rpx 0 8rpx;
+}
+
+/* ---------- 底部 ---------- */

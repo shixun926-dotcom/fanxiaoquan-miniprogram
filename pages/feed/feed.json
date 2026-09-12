@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "order-hint": "/components/order-hint/index",
+    "login-panel": "/components/login-panel/index",
+    "badge-coin": "/components/badge-coin/index",
+    "badge-modal": "/components/badge-modal/index",
+    "badge-toast": "/components/badge-toast/index",
+    "badge-all": "/components/badge-all/index"
+  },
+  "navigationBarTitleText": "饭小圈"
+}

@@ -1,0 +1,58 @@
+<view class="page chat">
+  <!-- 顶部：对方资料条 -->
+  <view class="chat-head">
+    <image
+      wx:if="{{avatar}}"
+      class="chat-head-avatar"
+      src="{{avatar}}"
+      mode="aspectFill"
+    />
+    <view wx:else class="chat-head-avatar chat-head-avatar-fallback">{{avatarText}}</view>
+    <view class="chat-head-meta">
+      <view class="chat-head-nick">{{nickname}}</view>
+      <view class="chat-head-status">{{mutual ? '你们已互相关注' : '未互相关注，无法发消息'}}</view>
+    </view>
+  </view>
+
+  <!-- 消息区 -->
+  <scroll-view
+    class="chat-body"
+    scroll-y
+    scroll-into-view="{{toView}}"
+    scroll-with-animation
+  >
+    <view class="chat-date" wx:if="{{!messages.length}}">还没有消息，打个招呼吧～</view>
+    <view
+      class="msg-row {{m.mine ? 'mine' : ''}}"
+      wx:for="{{messages}}"
+      wx:key="id"
+      id="{{index === messages.length - 1 ? 'msg-bottom-' + messages.length : ''}}"
+    >
+      <view class="bubble">
+        <view class="bubble-text">{{m.content}}</view>
+        <view class="bubble-time">{{m.timeText}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区（500 字上限） -->
+  <view class="chat-input-wrap">
+    <view class="chat-input-row">
+      <textarea
+        class="chat-input"
+        value="{{draft}}"
+        bindinput="onDraftInput"
+        placeholder="说点什么…"
+        placeholder-class="ph"
+        maxlength="500"
+        auto-height
+        adjust-position
+      />
+      <view class="chat-send {{canSend ? '' : 'disabled'}}" bindtap="onSend">
+        {{sending ? '…' : '发送'}}
+      </view>
+    </view>
+    <view class="chat-count">{{draft.length || 0}}/500</view>
+    <view class="chat-tip" wx:if="{{!mutual}}">你们还不是互相关注，无法发送消息</view>
+  </view>
+</view>

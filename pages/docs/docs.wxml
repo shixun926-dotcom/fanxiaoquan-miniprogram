@@ -1,0 +1,58 @@
+<view class="page">
+  <!-- 页首 -->
+  <view class="hero">
+    <view class="hero-title">📋 项目经理视角</view>
+    <view class="hero-sub">信息架构 · 外卖联动 L1~L3 方案 · 演进建议</view>
+  </view>
+
+  <!-- 01 产品与原型边界 -->
+  <view class="card section">
+    <view class="sec-title">01 · 产品与原型边界</view>
+    <view class="kv" wx:for="{{overview}}" wx:key="label">
+      <view class="kv-label">{{item.label}}</view>
+      <view class="kv-value">{{item.value}}</view>
+    </view>
+  </view>
+
+  <!-- 02 信息架构 -->
+  <view class="card section">
+    <view class="sec-title">02 · 信息架构</view>
+    <view class="tree">
+      <view
+        wx:for="{{tree}}"
+        wx:key="name"
+        class="tree-row"
+        style="padding-left: {{item.depth * 28 + 8}}rpx"
+      >
+        <view class="tree-dot" wx:if="{{item.depth > 0}}"></view>
+        <view class="tree-name {{item.depth === 0 ? 'root' : ''}}">{{item.name}}</view>
+        <view class="tree-meta" wx:if="{{item.meta}}">{{item.meta}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 03 外卖联动 L1~L3 -->
+  <view class="card section">
+    <view class="sec-title">03 · 外卖联动方案（L1 → L3 演进）</view>
+    <view class="level" wx:for="{{levels}}" wx:key="key">
+      <view class="level-head">
+        <view class="level-key">{{item.key}}</view>
+        <view class="level-title">{{item.title}}</view>
+        <view class="level-status {{item.statusClass}}">{{item.status}}</view>
+      </view>
+      <view class="level-desc">{{item.desc}}</view>
+      <view class="level-detail" wx:for="{{item.detail}}" wx:for-item="d" wx:key="*this">· {{d}}</view>
+    </view>
+  </view>
+
+  <!-- 04 演进建议 -->
+  <view class="card section">
+    <view class="sec-title">04 · 演进建议（PM 检查清单）</view>
+    <view class="check" wx:for="{{checklist}}" wx:key="*this">
+      <view class="check-num">{{index + 1}}</view>
+      <view class="check-text">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="foot-note">饭小圈原型 · 数据与交互均为本地演示 · 接入后端时整体替换 utils/mock.js</view>
+</view>

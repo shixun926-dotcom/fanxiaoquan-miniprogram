@@ -1,0 +1,179 @@
+/* pages/chat —— 聊天页（烟火实验室 · Warm Kitchen Lab） */
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 0;
+}
+
+/* ---------- 顶部对方资料 ---------- */
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 32rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #F3E3D3;
+}
+
+.chat-head-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 2rpx #F3E3D3;
+}
+
+.chat-head-avatar-fallback {
+  background: linear-gradient(135deg, #FFB88A, #FF6B35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38rpx;
+  font-weight: 700;
+}
+
+.chat-head-meta {
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.chat-head-nick {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.chat-head-status {
+  font-size: 22rpx;
+  color: #9C8B7C;
+  margin-top: 2rpx;
+}
+
+/* ---------- 消息区 ---------- */
+
+.chat-body {
+  flex: 1;
+  min-height: 0;
+  padding: 24rpx 24rpx 12rpx;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.chat-date {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B3A292;
+  padding: 60rpx 0;
+}
+
+.msg-row {
+  display: flex;
+  margin-bottom: 24rpx;
+}
+
+.msg-row.mine {
+  justify-content: flex-end;
+}
+
+/* 气泡：对方白底描边，我方暖橙渐变（热汤色） */
+.bubble {
+  max-width: 520rpx;
+  padding: 18rpx 24rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  border: 1rpx solid #F3E3D3;
+  box-shadow: 0 4rpx 12rpx rgba(232, 67, 46, 0.08);
+  position: relative;
+}
+
+.msg-row.mine .bubble {
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  border: none;
+  box-shadow: 0 6rpx 16rpx rgba(232, 67, 46, 0.28);
+  border-bottom-right-radius: 8rpx;
+}
+
+.msg-row:not(.mine) .bubble {
+  border-bottom-left-radius: 8rpx;
+}
+
+.bubble-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #241812;
+  word-break: break-all;
+}
+
+.msg-row.mine .bubble-text {
+  color: #ffffff;
+}
+
+.bubble-time {
+  font-size: 20rpx;
+  color: #B3A292;
+  margin-top: 8rpx;
+}
+
+.msg-row.mine .bubble-time {
+  color: rgba(255, 255, 255, 0.75);
+  text-align: right;
+}
+
+/* ---------- 输入区 ---------- */
+
+.chat-input-wrap {
+  background: #ffffff;
+  border-top: 1rpx solid #F3E3D3;
+  padding: 16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));
+}
+
+.chat-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16rpx;
+}
+
+.chat-input {
+  flex: 1;
+  min-height: 76rpx;
+  max-height: 200rpx;
+  background: #F6EFE6;
+  border-radius: 24rpx;
+  padding: 16rpx 24rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.chat-send {
+  flex-shrink: 0;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #FF6B35, #E8432E);
+  border-radius: 999rpx;
+  padding: 20rpx 44rpx;
+  box-shadow: 0 4rpx 14rpx rgba(232, 67, 46, 0.25);
+}
+
+.chat-send.disabled {
+  background: #E8D9C8;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.chat-count {
+  text-align: right;
+  font-size: 20rpx;
+  color: #C9B8A8;
+  margin-top: 8rpx;
+}
+
+.chat-tip {
+  text-align: center;
+  font-size: 22rpx;
+  color: #B3A292;
+  padding-top: 10rpx;
+}

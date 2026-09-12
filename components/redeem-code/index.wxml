@@ -1,0 +1,14 @@
+<view class="redeem-block">
+  <view class="redeem-title">兑换码</view>
+  <view class="redeem-row">
+    <input
+      class="redeem-input"
+      placeholder="输入兑换码"
+      placeholder-class="ph"
+      value="{{codeInput}}"
+      bindinput="onInput"
+      maxlength="20"
+    />
+    <view class="redeem-btn {{codeInput ? '' : 'disabled'}}" bindtap="redeem">兑换</view>
+  </view>
+</view>

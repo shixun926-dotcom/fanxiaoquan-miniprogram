@@ -1,0 +1,120 @@
+/* 徽章详情弹层（UI/mockups/badges.html .mask/.detail 同款，换算 rpx） */
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(36, 24, 18, 0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail {
+  width: 600rpx;
+  background: linear-gradient(180deg, #fff6ec 0%, #ffffff 26%);
+  border-radius: 44rpx;
+  padding: 56rpx 44rpx 44rpx;
+  text-align: center;
+  box-shadow: 0 24rpx 60rpx rgba(232, 67, 46, 0.25);
+  animation: cardIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cardIn {
+  from {
+    transform: scale(0.7) translateY(24rpx);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 打赏徽章完整奖章图（六边形 + 丝带，200rpx 与 badge-coin size=196 视觉相当；柔光托底） */
+.d-medal {
+  width: 220rpx;
+  height: 220rpx;
+  filter: drop-shadow(0 10rpx 24rpx rgba(233, 107, 12, 0.25));
+}
+
+/* 未解锁：灰显（与 badge-coin 锁定语义一致） */
+.d-medal.locked {
+  filter: grayscale(1) opacity(0.55) drop-shadow(0 6rpx 14rpx rgba(120, 80, 40, 0.15));
+}
+
+.d-name {
+  font-size: 44rpx;
+  font-weight: 800;
+  margin-top: 24rpx;
+  color: #241812;
+}
+
+.d-rarity {
+  display: inline-block;
+  font-size: 22rpx;
+  font-weight: 700;
+  border-radius: 999rpx;
+  padding: 6rpx 26rpx;
+  margin-top: 14rpx;
+}
+
+.d-cat {
+  font-size: 20rpx;
+  color: #9c8b7c;
+  margin-top: 8rpx;
+}
+
+.d-cond {
+  font-size: 24rpx;
+  color: #6b5a4c;
+  margin-top: 16rpx;
+  line-height: 1.5;
+}
+
+.d-bar {
+  height: 14rpx;
+  border-radius: 99rpx;
+  background: #f2e3cf;
+  margin-top: 22rpx;
+  overflow: hidden;
+  box-shadow: inset 0 2rpx 4rpx rgba(120, 80, 40, 0.12);
+}
+
+.d-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 99rpx;
+  background: linear-gradient(90deg, #ffd37a, #ffb400, #ff8a3d);
+  transition: width 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.d-pg {
+  font-size: 22rpx;
+  color: #6b5a4c;
+  margin-top: 12rpx;
+}
+
+.d-pg .num {
+  color: #e8432e;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.d-time {
+  font-size: 21rpx;
+  color: #9c8b7c;
+  margin-top: 10rpx;
+}
+
+.d-close {
+  margin-top: 32rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b35, #e8432e);
+  border-radius: 999rpx;
+  padding: 18rpx 0;
+}
